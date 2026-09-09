@@ -141,10 +141,15 @@ function IconLinkedin() {
   )
 }
 
+const CONTACT_ENDPOINT =
+  'https://formsubmit.co/ajax/kubradmrgc965@gmail.com'
+
+type FormStatus = 'idle' | 'sending' | 'sent' | 'error'
+
 export default function App() {
   const [dark, setDark] = useState(false)
   const [active, setActive] = useState('hakkimda')
-  const [sent, setSent] = useState(false)
+  const [formStatus, setFormStatus] = useState<FormStatus>('idle')
 
   useEffect(() => {
     const stored = localStorage.getItem('theme')
@@ -195,9 +200,49 @@ export default function App() {
     localStorage.setItem('theme', next ? 'dark' : 'light')
   }
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setSent(true)
+    const form = event.currentTarget
+    const data = new FormData(form)
+
+    if (String(data.get('website') || '').trim()) {
+      setFormStatus('sent')
+      return
+    }
+
+    setFormStatus('sending')
+
+    try {
+      const response = await fetch(CONTACT_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.get('name'),
+          email: data.get('email'),
+          message: data.get('message'),
+          _replyto: data.get('email'),
+          _subject: 'Portfolyo iletişim formu',
+        }),
+      })
+
+      const result = (await response.json()) as {
+        success?: boolean | string
+        message?: string
+      }
+      const accepted =
+        result.success === true ||
+        result.success === 'true' ||
+        /activat/i.test(String(result.message || ''))
+
+      if (!response.ok || !accepted) throw new Error('Form gönderilemedi')
+      setFormStatus('sent')
+      form.reset()
+    } catch {
+      setFormStatus('error')
+    }
   }
 
   return (
@@ -471,18 +516,23 @@ export default function App() {
               </ul>
             </div>
             <form
-              className="space-y-4 rounded-3xl border border-line bg-white/50 p-6 dark:border-night-line dark:bg-night-card sm:p-8"
+              className="relative space-y-4 rounded-3xl border border-line bg-white/50 p-6 dark:border-night-line dark:bg-night-card sm:p-8"
               onSubmit={onSubmit}
               data-reveal
             >
-              {sent ? (
+              {formStatus === 'sent' ? (
                 <p className="py-8 text-center text-muted dark:text-night-muted">
-                  Teşekkürler. Mesajınız alındı; en kısa sürede dönüş yapacağım.
+                  Teşekkürler. Mesajınız e-postama iletildi; en kısa sürede
+                  dönüş yapacağım.
                 </p>
               ) : (
                 <>
                   <Input id="name" name="name" label="Ad Soyad" required />
                   <Input id="email" name="email" label="E-posta" type="email" required />
+                  <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+                    <label htmlFor="website">Website</label>
+                    <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+                  </div>
                   <div className="space-y-1.5">
                     <label
                       htmlFor="message"
@@ -498,8 +548,14 @@ export default function App() {
                       className="w-full rounded-xl border border-line bg-white/70 px-3.5 py-2.5 text-ink transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40 dark:border-night-line dark:bg-night dark:text-night-text"
                     />
                   </div>
-                  <Button variant="primary" type="submit">
-                    Gönder
+                  {formStatus === 'error' && (
+                    <p role="alert" className="text-sm text-red-700 dark:text-red-400">
+                      Mesaj gönderilemedi. Lütfen tekrar deneyin veya doğrudan
+                      e-posta adresime yazın.
+                    </p>
+                  )}
+                  <Button variant="primary" type="submit" disabled={formStatus === 'sending'}>
+                    {formStatus === 'sending' ? 'Gönderiliyor…' : 'Gönder'}
                   </Button>
                 </>
               )}

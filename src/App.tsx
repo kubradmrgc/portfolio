@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useState, type CSSProperties, type FormEvent } from 'react'
 import Button from './components/Button'
 import Input from './components/Input'
 import Card from './components/Card'
@@ -170,21 +170,35 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    const nodes = document.querySelectorAll('[data-reveal]')
+    const nodes = Array.from(document.querySelectorAll('[data-reveal]'))
+    const reveal = (node: Element) => node.classList.add('is-visible')
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('is-visible')
+          if (!entry.isIntersecting) return
+          reveal(entry.target)
+          io.unobserve(entry.target)
         })
       },
-      { threshold: 0.08, rootMargin: '0px 0px -6% 0px' },
+      { threshold: 0.14, rootMargin: '0px 0px -8% 0px' },
     )
-    nodes.forEach((node) => {
-      const rect = node.getBoundingClientRect()
-      if (rect.top < window.innerHeight) node.classList.add('is-visible')
-      io.observe(node)
+    nodes.forEach((node) => io.observe(node))
+
+    const frame = requestAnimationFrame(() => {
+      nodes.forEach((node) => {
+        const rect = node.getBoundingClientRect()
+        if (rect.top < window.innerHeight * 0.9 && rect.bottom > 48) {
+          reveal(node)
+          io.unobserve(node)
+        }
+      })
     })
-    return () => io.disconnect()
+
+    return () => {
+      cancelAnimationFrame(frame)
+      io.disconnect()
+    }
   }, [])
 
   useEffect(() => {
@@ -262,7 +276,7 @@ export default function App() {
         Ana içeriğe atla
       </a>
 
-      <header className="sticky top-0 z-40 border-b border-line bg-paper/95 shadow-[0_8px_24px_-18px_rgba(18,17,15,0.45)] backdrop-blur-md dark:border-night-line dark:bg-night/95">
+      <header className="site-header sticky top-0 z-40 border-b border-line bg-paper/95 shadow-[0_8px_24px_-18px_rgba(18,17,15,0.45)] backdrop-blur-md dark:border-night-line dark:bg-night/95">
         <div className="mx-auto max-w-6xl px-5 py-3">
           <div className="flex items-center justify-between gap-3">
             <a href="#hakkimda" className="flex min-w-0 items-center gap-3">
@@ -304,7 +318,7 @@ export default function App() {
                 <li key={item.id}>
                   <a
                     href={item.href}
-                    className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
+                    className={`rounded-full px-3 py-1.5 text-sm transition-all duration-300 ${
                       active === item.id
                         ? 'bg-accent text-paper dark:bg-night-accent dark:text-night'
                         : 'text-muted hover:text-ink dark:text-night-muted dark:hover:text-night-text'
@@ -322,7 +336,7 @@ export default function App() {
       <main id="main-content">
         <section id="hakkimda" className="px-5 pt-8 pb-16 sm:pt-10">
           <div className="hero-panel mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[1.12fr_0.88fr] lg:items-center lg:gap-10">
-            <div>
+            <div className="hero-copy">
               <div className="mb-6 flex flex-wrap items-center gap-2">
                 <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs text-[#d5eadc]">
                   Yazılım Mühendisi
@@ -354,13 +368,13 @@ export default function App() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href="#iletisim"
-                  className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-[0.95rem] font-semibold text-[#16382c]"
+                  className="hero-cta inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-[0.95rem] font-semibold text-[#16382c]"
                 >
                   İletişime geç
                 </a>
                 <a
                   href="#projeler"
-                  className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-white/16"
+                  className="hero-cta inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-white/16"
                 >
                   Projeler
                 </a>
@@ -368,7 +382,7 @@ export default function App() {
                   href="https://github.com/kubradmrgc"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-full border border-white/25 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-white/10"
+                  className="hero-cta inline-flex items-center justify-center rounded-full border border-white/25 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-white/10"
                 >
                   GitHub
                 </a>
@@ -383,7 +397,7 @@ export default function App() {
             </figure>
           </div>
 
-          <div className="mx-auto mt-16 max-w-6xl" data-reveal>
+          <div className="mx-auto mt-16 max-w-6xl" data-reveal data-stagger>
             <h2 className="mb-8 text-sm font-medium uppercase tracking-[0.18em] text-muted dark:text-night-muted">
               Kullandığım teknolojiler
             </h2>
@@ -394,10 +408,11 @@ export default function App() {
                     {group.label}
                   </p>
                   <ul className="flex flex-wrap gap-2" aria-label={group.label}>
-                    {group.items.map((tech) => (
+                    {group.items.map((tech, index) => (
                       <li
                         key={tech}
-                        className="rounded-full border border-line px-3 py-1 text-sm text-muted dark:border-night-line dark:text-night-muted"
+                        style={{ '--i': index } as CSSProperties}
+                        className="tech-chip rounded-full border border-line px-3 py-1 text-sm text-muted dark:border-night-line dark:text-night-muted"
                       >
                         {tech}
                       </li>
@@ -420,9 +435,14 @@ export default function App() {
               </h2>
             </div>
             <ol className="relative space-y-10 border-l border-line pl-8 dark:border-night-line">
-              {EXPERIENCE.map((job) => (
-                <li key={job.company} className="relative" data-reveal>
-                  <span className="absolute -left-[37px] top-1.5 size-2.5 rounded-full bg-accent dark:bg-night-accent" />
+              {EXPERIENCE.map((job, index) => (
+                <li
+                  key={job.company}
+                  className="relative"
+                  data-reveal
+                  style={{ '--reveal-delay': `${index * 90}ms` } as CSSProperties}
+                >
+                  <span className="timeline-dot absolute -left-[37px] top-1.5 size-2.5 rounded-full bg-accent dark:bg-night-accent" />
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                     <h3 className="text-xl font-semibold tracking-tight">{job.company}</h3>
                     <p className="text-sm text-muted dark:text-night-muted">{job.dates}</p>
@@ -452,8 +472,12 @@ export default function App() {
               </h2>
             </div>
             <div className="grid gap-6 md:grid-cols-3">
-              {PROJECTS.map((project) => (
-                <div key={project.title} data-reveal>
+              {PROJECTS.map((project, index) => (
+                <div
+                  key={project.title}
+                  data-reveal
+                  style={{ '--reveal-delay': `${index * 110}ms` } as CSSProperties}
+                >
                   <Card title={project.title} className="h-full">
                     <p className="mb-5">{project.body}</p>
                     <ul className="flex flex-wrap gap-1.5">
@@ -484,8 +508,12 @@ export default function App() {
               </h2>
             </div>
             <div className="grid gap-8 md:grid-cols-2">
-              {EDUCATION.map((item) => (
-                <article key={item.title} data-reveal>
+              {EDUCATION.map((item, index) => (
+                <article
+                  key={item.title}
+                  data-reveal
+                  style={{ '--reveal-delay': `${index * 80}ms` } as CSSProperties}
+                >
                   <h3 className="text-lg font-semibold tracking-tight">{item.title}</h3>
                   <p className="mt-1 text-sm text-accent-soft dark:text-night-accent">{item.meta}</p>
                   <p className="mt-3 text-muted dark:text-night-muted">{item.body}</p>
@@ -536,7 +564,7 @@ export default function App() {
                 href={WHATSAPP_CHANNEL}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#25D366] px-6 py-3 text-sm font-semibold text-[#16382c] transition-transform hover:-translate-y-0.5"
+                className="channel-cta inline-flex shrink-0 items-center justify-center rounded-full bg-[#25D366] px-6 py-3 text-sm font-semibold text-[#16382c]"
               >
                 Kanala katıl
               </a>

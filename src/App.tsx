@@ -274,20 +274,11 @@ export default function App() {
                   Kübra Demirgüç
                 </span>
                 <span className="text-xs text-muted dark:text-night-muted">
-                  Yazılım Mühendisi · ByteHane
+                  Yazılım Mühendisi
                 </span>
               </span>
             </a>
             <div className="flex shrink-0 items-center gap-2">
-              <a
-                href={WHATSAPP_CHANNEL}
-                target="_blank"
-                rel="noreferrer"
-                className="hidden items-center gap-1.5 rounded-full bg-[#25D366] px-3 py-1.5 text-xs font-semibold text-[#16382c] sm:inline-flex"
-              >
-                <IconWhatsapp className="size-3.5" />
-                Kanala katıl
-              </a>
               <button
                 type="button"
                 onClick={toggleTheme}
@@ -323,16 +314,6 @@ export default function App() {
                   </a>
                 </li>
               ))}
-              <li className="sm:hidden">
-                <a
-                  href={WHATSAPP_CHANNEL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-3 py-1.5 text-sm font-semibold text-[#16382c]"
-                >
-                  WhatsApp
-                </a>
-              </li>
             </ul>
           </nav>
         </div>
@@ -343,15 +324,14 @@ export default function App() {
           <div className="hero-panel mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[1.12fr_0.88fr] lg:items-center lg:gap-10">
             <div>
               <div className="mb-6 flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#25D366]/35 bg-[#25D366]/12 px-3 py-1 text-xs font-semibold tracking-wide text-[#9dccb4]">
-                  <span className="size-1.5 rounded-full bg-[#25D366]" />
-                  ByteHane
-                </span>
                 <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs text-[#d5eadc]">
                   Yazılım Mühendisi
                 </span>
                 <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs text-[#d5eadc]">
                   Fırat Üniversitesi
+                </span>
+                <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs text-[#d5eadc]">
+                  IEEE Fırat WIE
                 </span>
               </div>
               <h1 className="text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl lg:text-[3.6rem] lg:leading-[1.08]">
@@ -373,19 +353,16 @@ export default function App() {
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href={WHATSAPP_CHANNEL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-[0.95rem] font-semibold text-[#16382c]"
-                >
-                  <IconWhatsapp className="size-4" />
-                  ByteHane kanalına katıl
-                </a>
-                <a
                   href="#iletisim"
-                  className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-white/16"
+                  className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-[0.95rem] font-semibold text-[#16382c]"
                 >
                   İletişime geç
+                </a>
+                <a
+                  href="#projeler"
+                  className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-white/16"
+                >
+                  Projeler
                 </a>
                 <a
                   href="https://github.com/kubradmrgc"
@@ -401,11 +378,11 @@ export default function App() {
               <img
                 src={`${import.meta.env.BASE_URL}profil.jpg`}
                 alt="Kübra Demirgüç"
-                className="aspect-[4/5] w-full rounded-3xl object-cover object-[center_20%] ring-4 ring-[#25D366]/40"
+                className="aspect-[4/5] w-full rounded-3xl object-cover object-[center_20%] ring-4 ring-white/20"
               />
               <span className="hero-chip hero-chip-a">Go · C# · Python</span>
               <span className="hero-chip hero-chip-b">React · LLM</span>
-              <span className="hero-chip hero-chip-c">ByteHane</span>
+              <span className="hero-chip hero-chip-c">Kafka · RAG</span>
             </figure>
           </div>
 
@@ -506,7 +483,7 @@ export default function App() {
                 Eğitim & topluluk
               </p>
               <h2 className="mt-2 text-3xl font-semibold tracking-tight">
-                Okul, liderlik ve içerik
+                Okul ve liderlik
               </h2>
             </div>
             <div className="grid gap-8 md:grid-cols-2">
@@ -517,14 +494,6 @@ export default function App() {
                   <p className="mt-3 text-muted dark:text-night-muted">{item.body}</p>
                 </article>
               ))}
-              <article data-reveal>
-                <h3 className="text-lg font-semibold tracking-tight">ByteHane</h3>
-                <p className="mt-1 text-sm text-accent-soft dark:text-night-accent">İçerik üretimi</p>
-                <p className="mt-3 text-muted dark:text-night-muted">
-                  ByteHane kanallarında programlama ve yazılım mimarisi
-                  paylaşımları. WhatsApp kanalından da takip edebilirsin.
-                </p>
-              </article>
               <article data-reveal>
                 <h3 className="text-lg font-semibold tracking-tight">Sertifikalar</h3>
                 <ul className="mt-3 space-y-1.5 text-muted dark:text-night-muted">
@@ -537,7 +506,7 @@ export default function App() {
           </div>
         </section>
 
-        <section className="px-5 py-6" aria-labelledby="whatsapp-kanal">
+        <section id="bytehane" className="px-5 py-6" aria-labelledby="whatsapp-kanal">
           <article
             data-reveal
             className="mx-auto max-w-6xl rounded-3xl bg-[#16382c] px-6 py-8 text-[#f3f7f4] shadow-[0_24px_50px_-28px_rgba(22,56,44,0.7)] sm:px-10 sm:py-10"

@@ -69,8 +69,8 @@ body {
   position: relative;
   isolation: isolate;
   background:
-    radial-gradient(720px 380px at 92% 8%, rgba(37, 211, 102, 0.32), transparent 58%),
-    radial-gradient(520px 340px at 6% 92%, rgba(37, 211, 102, 0.12), transparent 60%),
+    radial-gradient(720px 380px at 92% 8%, rgba(163, 179, 154, 0.22), transparent 58%),
+    radial-gradient(520px 340px at 6% 92%, rgba(47, 74, 64, 0.35), transparent 60%),
     linear-gradient(145deg, #0b1512 0%, #16382c 48%, #08110e 100%);
   color: #f4f7f4;
   box-shadow:
@@ -104,7 +104,7 @@ body {
 .hero-chip {
   position: absolute;
   z-index: 2;
-  border: 1px solid rgba(37, 211, 102, 0.35);
+  border: 1px solid rgba(157, 204, 180, 0.28);
   border-radius: 999px;
   background: rgba(10, 22, 18, 0.82);
   padding: 0.4rem 0.8rem;
@@ -128,9 +128,6 @@ body {
 .hero-chip-c {
   bottom: 8%;
   left: 8%;
-  background: #25d366;
-  border-color: transparent;
-  color: #16382c;
 }
 
 @media (max-width: 640px) {

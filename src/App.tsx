@@ -249,9 +249,10 @@ export default function App() {
                 Kafka ve LLM entegrasyonlarıyla ölçeklenebilir mimariler kuruyorum.
               </p>
               <p className="mt-4 text-[1.05rem] leading-relaxed text-muted dark:text-night-muted">
-                Komtaş ve Prodrom ITC Solutions stajlarını akademik projeler,
-                FÜ BİLTAG ve IEEE Fırat WIE ile birlikte yürütüyorum. İngilizce B2,
-                Almanca A1. Staj ve tam zamanlı yazılım rolleri için açığım.
+                Komtaş ve Prodrom ITC Solutions stajlarını orada sonlandırdım;
+                akademik projelerimi FÜ BİLTAG ve IEEE Fırat WIE ile toplulukta
+                yürütüyorum. İngilizce B2, Almanca A1. Staj ve tam zamanlı yazılım
+                rolleri için açığım.
               </p>
             </section>
 
@@ -482,9 +483,10 @@ export default function App() {
               <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
                 Birlikte çalışalım
               </h2>
-              <p className="mt-4 max-w-md text-muted dark:text-night-muted">
-                Yeni bir proje, staj veya teknik bir sohbet için yazın. Form
-                kubradmrgc965@gmail.com adresine düşer.
+              <p className="mt-4 max-w-lg text-muted dark:text-night-muted">
+                Sohbete açığım. Birlikte bir şey kurmak, staj konuşmak ya da
+                yalnızca merhaba demek için yazman yeterli — mesajın bana gelir,
+                dönüş yaparım.
               </p>
               <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
                 <li>

@@ -1,452 +1,511 @@
-import './App.css'
+import { useEffect, useState, type FormEvent } from 'react'
 import Button from './components/Button'
 import Input from './components/Input'
 import Card from './components/Card'
 
-function App() {
+const NAV = [
+  { href: '#hakkimda', id: 'hakkimda', label: 'Hakkımda' },
+  { href: '#deneyim', id: 'deneyim', label: 'Deneyim' },
+  { href: '#projeler', id: 'projeler', label: 'Projeler' },
+  { href: '#egitim', id: 'egitim', label: 'Eğitim' },
+  { href: '#iletisim', id: 'iletisim', label: 'İletişim' },
+] as const
+
+const TECH_GROUPS = [
+  {
+    label: 'Diller',
+    items: ['C#', 'Go', 'Python', 'Java', 'C++', 'PHP', 'JavaScript'],
+  },
+  {
+    label: 'Framework',
+    items: ['.NET Core', 'React', 'React Native', 'Laravel', 'EF Core'],
+  },
+  {
+    label: 'Veri & altyapı',
+    items: [
+      'SQL Server',
+      'PostgreSQL',
+      'MongoDB',
+      'Redis',
+      'Kafka',
+      'Docker',
+      'Git',
+      'SignalR',
+      'Qlik',
+      'Informatica',
+      'Looker',
+      'BI',
+    ],
+  },
+]
+
+const EXPERIENCE = [
+  {
+    company: 'Prodrom ITC Solutions',
+    role: 'Yazılım Geliştirme Stajyeri',
+    dates: 'Ağu 2026 – Eyl 2026',
+    points: [
+      'Kurumsal IT çözümleri kapsamında yazılım mimarisi geliştirme süreçlerine destek verildi.',
+      'Akıllı CVE Analiz aracında NVD verilerini RAG ve LLM ile özetleyip kritik zafiyetleri Telegram üzerinden ilettim.',
+    ],
+  },
+  {
+    company: 'Komtaş',
+    role: 'Yazılım Mühendisliği Stajyeri',
+    dates: 'Tem 2026 – Ağu 2026',
+    points: [
+      'Veri analizi ve veri analitiği süreçlerinde Informatica kullandım.',
+      'Informatica CDI Taskflow ile sigorta OLTP verisini Staging ve DWH katmanlarına taşıyıp mapping görevlerini paralel çalışacak şekilde orkestre ettim.',
+      'DWH üzerindeki analitik sorguları 10 Datamart tablosuna dönüştürerek gelir grubu, acente, prim ve teminat bazında raporlama katmanı oluşturdum.',
+    ],
+  },
+  {
+    company: 'Fırat Üniversitesi Kariyer Merkezi',
+    role: 'Full Stack Geliştirici',
+    dates: 'Ağu 2025 – Haz 2026',
+    points: [
+      'Öğrenci/mezun portallarının arayüzlerini ve kurumsal web platformlarını React kullanarak geliştirdim.',
+      'Kullanıcı deneyimini (UX) ön planda tutarak dinamik ve ölçeklenebilir web bileşenleri tasarladım.',
+    ],
+  },
+]
+
+const PROJECTS = [
+  {
+    title: 'Akıllı CVE Analiz Aracı',
+    body: 'Python, PostgreSQL (pgvector) ve LLM kullanılarak NVD verilerini çeken, RAG mimarisiyle zafiyetleri özetleyip Telegram botu ile gerçek zamanlı uyarı gönderen sistem.',
+    stack: ['Python', 'PostgreSQL', 'pgvector', 'LLM', 'RAG'],
+  },
+  {
+    title: 'QubIT',
+    body: 'Oyunlaştırılmış IT quiz. Go mikroservisleri ve Python ile tasarlandı; eşzamanlı kullanıcı trafiği Kafka ve Redis ile yönetildi.',
+    stack: ['Go', 'Python', 'Kafka', 'Redis'],
+  },
+  {
+    title: 'TerraVision',
+    body: 'C#, .NET Core Web API ve React Native. Mobil arayüz ile sunucu arasında anlık iletişim SignalR ile sağlandı.',
+    stack: ['C#', '.NET Core', 'React Native', 'SignalR'],
+  },
+]
+
+const EDUCATION = [
+  {
+    title: 'Fırat Üniversitesi',
+    meta: 'Yazılım Mühendisliği — Lisans · mezuniyet 2027',
+    body: '4. sınıf. Full-stack geliştirme, mikroservisler, veri analitiği ve yazılım mühendisliği temelleri.',
+  },
+  {
+    title: 'Kahta Borsa İstanbul Fen Lisesi',
+    meta: '2018 – 2022',
+    body: 'Lise eğitimimi tamamladığım dönemde yazılım ve teknolojiye yöneldim.',
+  },
+  {
+    title: 'Kommagene Sanat Topluluğu',
+    meta: 'Kurucu · Haz 2026',
+    body: 'Haziran 2026’da Kommagene Sanat Topluluğunu kurdum.',
+  },
+  {
+    title: 'IEEE Fırat Öğrenci Kolu',
+    meta: 'Nis 2026 – May 2026',
+    body: 'Kariyer ve Yapay Zeka Zirvesi koordinatörü ve moderatörü.',
+  },
+]
+
+function IconMail() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-blue-800 text-white p-2 z-50"
-      >
+    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.7">
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="M4 7l8 6 8-6" />
+    </svg>
+  )
+}
+
+function IconGithub() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true" fill="currentColor">
+      <path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.17-3.37-1.17-.46-1.16-1.12-1.47-1.12-1.47-.92-.62.07-.61.07-.61 1 .07 1.54 1.05 1.54 1.05.9 1.54 2.36 1.1 2.94.84.09-.65.35-1.1.64-1.35-2.22-.25-4.56-1.11-4.56-4.95 0-1.1.39-1.99 1.03-2.7-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.7.11 2.5.33 1.9-1.29 2.74-1.02 2.74-1.02.55 1.37.2 2.39.1 2.64.64.71 1.03 1.6 1.03 2.7 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z" />
+    </svg>
+  )
+}
+
+function IconLinkedin() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true" fill="currentColor">
+      <path d="M6.5 9H4V20h2.5V9zM5.24 4A1.5 1.5 0 105.25 7 1.5 1.5 0 005.24 4zM20 20h-2.5v-5.6c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94V20H11V9h2.4v1.51h.03c.33-.63 1.15-1.3 2.37-1.3 2.54 0 3.01 1.67 3.01 3.84V20z" />
+    </svg>
+  )
+}
+
+export default function App() {
+  const [dark, setDark] = useState(false)
+  const [active, setActive] = useState('hakkimda')
+  const [sent, setSent] = useState(false)
+
+  useEffect(() => {
+    const stored = localStorage.getItem('theme')
+    const next = stored === 'dark'
+    setDark(next)
+    document.documentElement.classList.toggle('dark', next)
+  }, [])
+
+  useEffect(() => {
+    const nodes = document.querySelectorAll('[data-reveal]')
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('is-visible')
+        })
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -6% 0px' },
+    )
+    nodes.forEach((node) => {
+      const rect = node.getBoundingClientRect()
+      if (rect.top < window.innerHeight) node.classList.add('is-visible')
+      io.observe(node)
+    })
+    return () => io.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const sections = NAV.map((item) => document.getElementById(item.id)).filter(
+      Boolean,
+    ) as HTMLElement[]
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (visible?.target.id) setActive(visible.target.id)
+      },
+      { rootMargin: '-35% 0px -50% 0px', threshold: [0.1, 0.3, 0.6] },
+    )
+    sections.forEach((section) => io.observe(section))
+    return () => io.disconnect()
+  }, [])
+
+  function toggleTheme() {
+    const next = !dark
+    setDark(next)
+    document.documentElement.classList.toggle('dark', next)
+    localStorage.setItem('theme', next ? 'dark' : 'light')
+  }
+
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setSent(true)
+  }
+
+  return (
+    <div className="min-h-screen bg-paper text-ink dark:bg-night dark:text-night-text">
+      <a href="#main-content" className="skip-link">
         Ana içeriğe atla
       </a>
 
-      <header className="sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <h1 className="text-xl font-bold text-blue-800 dark:text-blue-300">
-            Kübra Demirgüç — Yazılım Mühendisi
-          </h1>
-          <nav aria-label="Ana navigasyon" className="flex items-center gap-4">
-            <ul className="flex flex-wrap gap-2">
-              <li>
-                <a
-                  href="#hakkimda"
-                  className="px-3 py-1 rounded-md text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  Hakkımda
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#deneyim"
-                  className="px-3 py-1 rounded-md text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  Deneyim
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#projeler"
-                  className="px-3 py-1 rounded-md text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  Projeler
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#egitim"
-                  className="px-3 py-1 rounded-md text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  Eğitim
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#sertifikalar"
-                  className="px-3 py-1 rounded-md text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  Sertifikalar
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#iletisim"
-                  className="px-3 py-1 rounded-md text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  İletişim
-                </a>
-              </li>
+      <header className="sticky top-0 z-40 border-b border-line/80 bg-paper/80 backdrop-blur-md dark:border-night-line dark:bg-night/80">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3">
+          <a href="#hakkimda" className="shrink-0 text-sm font-semibold tracking-tight">
+            Kübra Demirgüç
+          </a>
+          <nav aria-label="Ana navigasyon" className="flex min-w-0 items-center gap-1">
+            <ul className="flex max-w-[68vw] flex-wrap items-center justify-end gap-0.5 sm:max-w-none">
+              {NAV.map((item) => (
+                <li key={item.id}>
+                  <a
+                    href={item.href}
+                    className={`rounded-full px-2.5 py-1 text-xs transition-colors sm:px-3 sm:py-1.5 sm:text-sm ${
+                      active === item.id
+                        ? 'bg-accent text-paper dark:bg-night-accent dark:text-night'
+                        : 'text-muted hover:text-ink dark:text-night-muted dark:hover:text-night-text'
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
             </ul>
             <button
-              onClick={() => document.documentElement.classList.toggle('dark')}
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:scale-110 transition-transform"
-              aria-label="Tema değiştir"
               type="button"
+              onClick={toggleTheme}
+              className="ml-2 rounded-full border border-line p-2 text-muted transition-colors hover:text-ink dark:border-night-line dark:text-night-muted dark:hover:text-night-text"
+              aria-label={dark ? 'Açık temaya geç' : 'Koyu temaya geç'}
             >
-              <span className="dark:hidden">🌙</span>
-              <span className="hidden dark:inline">☀️</span>
+              {dark ? (
+                <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.7">
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 3v1.5M12 19.5V21M4.9 4.9l1.1 1.1M18 18l1.1 1.1M3 12h1.5M19.5 12H21M4.9 19.1l1.1-1.1M18 6l1.1-1.1" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.7">
+                  <path d="M18 13a7 7 0 11-7-9 6.5 6.5 0 007 9z" />
+                </svg>
+              )}
             </button>
           </nav>
         </div>
       </header>
 
       <main id="main-content">
-        <section id="hakkimda" className="py-16 px-4">
-          <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-8">
-            <figure className="shrink-0">
-              <img
-                src={`${import.meta.env.BASE_URL}profil.jpg`}
-                alt="Kübra Demirgüç vesikalık fotoğrafı"
-                className="w-40 h-40 rounded-full object-cover shadow-lg"
-              />
-              <figcaption className="text-center font-semibold mt-2">
+        <section id="hakkimda" className="px-5 pt-16 pb-20 sm:pt-24">
+          <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+            <div data-reveal>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
+                Yazılım Mühendisi
+              </p>
+              <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
                 Kübra Demirgüç
-              </figcaption>
-            </figure>
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 text-center md:text-left">
-                Hakkımda
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+              </h1>
+              <p className="mt-6 max-w-xl text-lg text-muted dark:text-night-muted">
                 Fırat Üniversitesi Yazılım Mühendisliği 4. sınıf öğrencisiyim.
-                Kariyerime React ve PHP ile Frontend/Full-Stack geliştirici olarak
-                başlayıp; bugün Go, C#, Python, Kafka ve LLM entegrasyonları ile
-                ölçeklenebilir mikroservis mimarileri kuran bir yazılım
-                mühendisiyim.
+                Kariyerime React ve PHP ile başladım; bugün Go, C#, Python,
+                Kafka ve LLM entegrasyonlarıyla ölçeklenebilir mikroservis
+                mimarileri kuruyorum.
               </p>
-              <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                Komtaş ve Prodrom ITC Solutions gibi kurumsal firmalardaki
-                tecrübemi, akademik projeler ve teknik topluluk liderliğiyle
-                harmanlamaktayım.
+              <p className="mt-4 max-w-xl text-muted dark:text-night-muted">
+                Komtaş ve Prodrom ITC Solutions deneyimini akademik projeler ve
+                teknik topluluk liderliğiyle bir arada yürütüyorum. İngilizce
+                B2, Almanca A1.
               </p>
-              <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                İngilizce (B2) ve Almanca (A1) seviyesinde yabancı dil bilgisine
-                sahibim.
-              </p>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                Kullandığım teknolojiler
-              </h3>
-              <ul className="flex flex-wrap gap-2" aria-label="Beceri etiketleri">
-                {[
-                  'C#',
-                  'Go',
-                  'Python',
-                  'Java',
-                  'C++',
-                  'PHP',
-                  'JavaScript',
-                  '.NET Core',
-                  'React',
-                  'React Native',
-                  'Laravel',
-                  'EF Core',
-                  'SQL Server',
-                  'PostgreSQL',
-                  'MongoDB',
-                  'Redis',
-                  'Kafka',
-                  'Docker',
-                  'Git',
-                  'SignalR',
-                  'Qlik',
-                  'Informatica',
-                  'Looker',
-                  'BI',
-                ].map((tech) => (
-                  <li
-                    key={tech}
-                    className="bg-blue-800 text-white px-3 py-1 rounded-full text-sm"
-                  >
-                    {tech}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section id="deneyim" className="py-16 px-4 bg-gray-50 dark:bg-gray-900">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-10">
-              Deneyim
-            </h2>
-            <div className="grid grid-cols-1 gap-6">
-              <article className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-1">
-                  Prodrom ITC Solutions
-                </h3>
-                <p className="font-semibold text-sm mb-1">
-                  Yazılım Geliştirme Stajyeri
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  Ağu 2026 – Eyl 2026
-                </p>
-                <ul className="text-sm text-gray-600 dark:text-gray-400 list-disc pl-5 space-y-1">
-                  <li>
-                    Kurumsal IT çözümleri kapsamında yazılım mimarisi geliştirme
-                    süreçlerine destek verildi.
-                  </li>
-                  <li>
-                    Akıllı CVE Analiz aracında NVD verilerini RAG ve LLM ile
-                    özetleyip kritik zafiyetleri Telegram üzerinden ilettim.
-                  </li>
-                </ul>
-              </article>
-              <article className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-1">
-                  Komtaş
-                </h3>
-                <p className="font-semibold text-sm mb-1">
-                  Yazılım Mühendisliği Stajyeri
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  Tem 2026 – Ağu 2026
-                </p>
-                <ul className="text-sm text-gray-600 dark:text-gray-400 list-disc pl-5 space-y-1">
-                  <li>
-                    Veri analizi ve veri analitiği süreçlerinde Informatica
-                    kullandım.
-                  </li>
-                  <li>
-                    Informatica CDI Taskflow ile sigorta OLTP verisini Staging ve
-                    DWH katmanlarına taşıyıp mapping görevlerini paralel çalışacak
-                    şekilde orkestre ettim.
-                  </li>
-                  <li>
-                    DWH üzerindeki analitik sorguları 10 Datamart tablosuna
-                    dönüştürerek gelir grubu, acente, prim ve teminat bazında
-                    raporlama katmanı oluşturdum.
-                  </li>
-                </ul>
-              </article>
-              <article className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-1">
-                  Fırat Üniversitesi Kariyer Merkezi
-                </h3>
-                <p className="font-semibold text-sm mb-1">Full Stack Geliştirici</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  Ağu 2025 – Haz 2026
-                </p>
-                <ul className="text-sm text-gray-600 dark:text-gray-400 list-disc pl-5 space-y-1">
-                  <li>
-                    Öğrenci/mezun portallarının arayüzlerini ve kurumsal web
-                    platformlarını React kullanarak geliştirdim.
-                  </li>
-                  <li>
-                    Kullanıcı deneyimini (UX) ön planda tutarak dinamik ve
-                    ölçeklenebilir web bileşenleri tasarladım.
-                  </li>
-                </ul>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section id="projeler" className="py-16 px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-10">
-              Projelerim
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <Card variant="elevated" title="Akıllı CVE Analiz Aracı">
-                <p className="mb-2">
-                  Python, PostgreSQL (pgvector) ve LLM kullanılarak NVD
-                  verilerini çeken, RAG mimarisiyle zafiyetleri özetleyip
-                  Telegram botu ile gerçek zamanlı uyarı gönderen sistem.
-                </p>
-                <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                  Teknolojiler: Python, PostgreSQL, pgvector, LLM, RAG, Telegram
-                </p>
-              </Card>
-              <Card variant="elevated" title="QubIT (Oyunlaştırılmış IT Quiz)">
-                <p className="mb-2">
-                  Go mikroservisleri ve Python kullanılarak tasarlandı. Eşzamanlı
-                  kullanıcı trafiğini yönetmek için Kafka ve Redis entegre
-                  edildi.
-                </p>
-                <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                  Teknolojiler: Go, Python, Kafka, Redis
-                </p>
-              </Card>
-              <Card variant="elevated" title="TerraVision">
-                <p className="mb-2">
-                  C#, .NET Core Web API ve React Native kullanıldı. Mobil arayüz
-                  ile sunucu arasında anlık iletişim SignalR ile sağlandı.
-                </p>
-                <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                  Teknolojiler: C#, .NET Core, React Native, SignalR
-                </p>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        <section id="egitim" className="py-16 px-4 bg-gray-50 dark:bg-gray-900">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-10">
-              Eğitim &amp; Topluluk
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <article className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-2">
-                  Fırat Üniversitesi
-                </h3>
-                <p className="font-semibold text-sm mb-1">
-                  Yazılım Mühendisliği – Lisans
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  Beklenen mezuniyet: Haziran 2027
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  4. sınıf öğrencisiyim; full-stack geliştirme, mikroservisler,
-                  veri analitiği ve yazılım mühendisliği temelleri üzerine eğitim
-                  alıyorum.
-                </p>
-              </article>
-              <article className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-2">
-                  Kahta Borsa İstanbul Fen Lisesi
-                </h3>
-                <p className="font-semibold text-sm mb-1">Lise Diploması</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  2018 – 2022
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Lise eğitimimi tamamladım; bu dönemde yazılım ve teknolojiye
-                  olan ilgim güçlendi.
-                </p>
-              </article>
-              <article className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-2">
-                  Kommagene Sanat Topluluğu
-                </h3>
-                <p className="font-semibold text-sm mb-1">Kurucu</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  Haz 2026
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Haziran 2026&apos;da Kommagene Sanat Topluluğunu kurdum.
-                </p>
-              </article>
-              <article className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-2">
-                  IEEE Fırat Öğrenci Kolu
-                </h3>
-                <p className="font-semibold text-sm mb-1">
-                  Kariyer ve Yapay Zeka Zirvesi Koordinatörü ve Moderatörü
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  Nis 2026 – May 2026
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Kariyer ve Yapay Zeka Zirvesi’nde koordinatör ve moderatör
-                  olarak görev aldım.
-                </p>
-              </article>
-              <article className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 border border-gray-200 dark:border-gray-700 sm:col-span-2">
-                <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-2">
-                  İçerik Üretimi — ByteHane
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  ByteHane kanallarında programlama ve yazılım mimarisi
-                  paylaşımları yapıyorum.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section id="sertifikalar" className="py-16 px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-4">
-              Sertifikalar
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 text-center mb-8">
-              Akademi ve platformlar üzerinden edindiğim sertifikalar:
-            </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl mx-auto">
-              {[
-                'Web Programlama – Akbank Gençlik Akademisi',
-                'Geleceği Eşitle Pre-Bootcamp',
-                'Finans ve Borsa',
-              ].map((cert) => (
-                <li
-                  key={cert}
-                  className="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 text-sm"
-                >
-                  {cert}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section id="iletisim" className="py-16 px-4 bg-gray-50 dark:bg-gray-900">
-          <div className="max-w-lg mx-auto">
-            <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">
-              İletişim
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
-              Benimle iletişime geçmek için aşağıdaki formu kullanabilir veya
-              e-posta / LinkedIn / GitHub üzerinden ulaşabilirsiniz.
-            </p>
-            <div className="space-y-3 mb-8 text-sm text-gray-700 dark:text-gray-300">
-              <p>
-                <strong>E-posta:</strong>{' '}
+              <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href="mailto:kubradmrgc965@gmail.com"
-                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                  href="#iletisim"
+                  className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-2.5 text-[0.95rem] font-medium text-paper transition-colors hover:bg-accent-soft dark:bg-night-accent dark:text-night dark:hover:bg-night-text"
                 >
-                  kubradmrgc965@gmail.com
+                  İletişime geç
                 </a>
-              </p>
-              <p>
-                <strong>LinkedIn:</strong>{' '}
-                <a
-                  href="https://linkedin.com/in/k%C3%BCbra-demirg%C3%BC%C3%A7"
-                  className="text-blue-600 dark:text-blue-400 hover:underline"
-                >
-                  linkedin.com/in/kübra-demirgüç
-                </a>
-              </p>
-              <p>
-                <strong>GitHub:</strong>{' '}
                 <a
                   href="https://github.com/kubradmrgc"
-                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-full border border-line px-5 py-2.5 text-[0.95rem] font-medium transition-colors hover:border-ink dark:border-night-line dark:hover:border-night-text"
                 >
-                  github.com/kubradmrgc
+                  GitHub
                 </a>
-              </p>
+              </div>
             </div>
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-              <Input id="name" label="Ad Soyad" required />
-              <Input id="email" label="E-posta" type="email" required />
-              <div className="space-y-1">
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Mesajınız
-                </label>
-                <textarea
-                  id="message"
-                  rows={5}
-                  required
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
-                />
-              </div>
-              <div className="pt-2">
-                <Button variant="primary" size="lg" type="submit">
-                  Gönder
-                </Button>
-              </div>
+            <figure data-reveal className="mx-auto w-full max-w-sm lg:mx-0 lg:justify-self-end">
+              <img
+                src={`${import.meta.env.BASE_URL}profil.jpg`}
+                alt="Kübra Demirgüç"
+                className="aspect-[4/5] w-full rounded-3xl object-cover object-[center_20%] shadow-[0_30px_60px_-32px_rgba(28,25,21,0.55)]"
+              />
+            </figure>
+          </div>
+
+          <div className="mx-auto mt-16 max-w-6xl" data-reveal>
+            <h2 className="mb-8 text-sm font-medium uppercase tracking-[0.18em] text-muted dark:text-night-muted">
+              Kullandığım teknolojiler
+            </h2>
+            <div className="grid gap-8 md:grid-cols-3">
+              {TECH_GROUPS.map((group) => (
+                <div key={group.label}>
+                  <p className="mb-3 text-sm font-medium text-ink dark:text-night-text">
+                    {group.label}
+                  </p>
+                  <ul className="flex flex-wrap gap-2" aria-label={group.label}>
+                    {group.items.map((tech) => (
+                      <li
+                        key={tech}
+                        className="rounded-full border border-line px-3 py-1 text-sm text-muted dark:border-night-line dark:text-night-muted"
+                      >
+                        {tech}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="deneyim" className="border-y border-line px-5 py-20 dark:border-night-line">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-12" data-reveal>
+              <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
+                Deneyim
+              </p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight">
+                Kurumsal ve akademik işler
+              </h2>
+            </div>
+            <ol className="relative space-y-10 border-l border-line pl-8 dark:border-night-line">
+              {EXPERIENCE.map((job) => (
+                <li key={job.company} className="relative" data-reveal>
+                  <span className="absolute -left-[37px] top-1.5 size-2.5 rounded-full bg-accent dark:bg-night-accent" />
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+                    <h3 className="text-xl font-semibold tracking-tight">{job.company}</h3>
+                    <p className="text-sm text-muted dark:text-night-muted">{job.dates}</p>
+                  </div>
+                  <p className="mt-1 text-sm font-medium text-accent-soft dark:text-night-accent">
+                    {job.role}
+                  </p>
+                  <ul className="mt-4 max-w-3xl space-y-2 text-muted dark:text-night-muted">
+                    {job.points.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section id="projeler" className="px-5 py-20">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-12" data-reveal>
+              <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
+                Projeler
+              </p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight">
+                GitHub’da yayında
+              </h2>
+            </div>
+            <div className="grid gap-6 md:grid-cols-3">
+              {PROJECTS.map((project) => (
+                <div key={project.title} data-reveal>
+                  <Card title={project.title} className="h-full">
+                    <p className="mb-5">{project.body}</p>
+                    <ul className="flex flex-wrap gap-1.5">
+                      {project.stack.map((item) => (
+                        <li
+                          key={item}
+                          className="rounded-full bg-paper px-2.5 py-0.5 text-xs text-ink dark:bg-night dark:text-night-text"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </Card>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="egitim" className="border-y border-line px-5 py-20 dark:border-night-line">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-12" data-reveal>
+              <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
+                Eğitim & topluluk
+              </p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight">
+                Okul, liderlik ve içerik
+              </h2>
+            </div>
+            <div className="grid gap-8 md:grid-cols-2">
+              {EDUCATION.map((item) => (
+                <article key={item.title} data-reveal>
+                  <h3 className="text-lg font-semibold tracking-tight">{item.title}</h3>
+                  <p className="mt-1 text-sm text-accent-soft dark:text-night-accent">{item.meta}</p>
+                  <p className="mt-3 text-muted dark:text-night-muted">{item.body}</p>
+                </article>
+              ))}
+              <article data-reveal>
+                <h3 className="text-lg font-semibold tracking-tight">ByteHane</h3>
+                <p className="mt-1 text-sm text-accent-soft dark:text-night-accent">İçerik üretimi</p>
+                <p className="mt-3 text-muted dark:text-night-muted">
+                  ByteHane kanallarında programlama ve yazılım mimarisi paylaşımları.
+                </p>
+              </article>
+              <article data-reveal>
+                <h3 className="text-lg font-semibold tracking-tight">Sertifikalar</h3>
+                <ul className="mt-3 space-y-1.5 text-muted dark:text-night-muted">
+                  <li>Web Programlama — Akbank Gençlik Akademisi</li>
+                  <li>Geleceği Eşitle Pre-Bootcamp</li>
+                  <li>Finans ve Borsa</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="iletisim" className="px-5 py-20">
+          <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+            <div data-reveal>
+              <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
+                İletişim
+              </p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight">
+                Birlikte çalışalım
+              </h2>
+              <p className="mt-4 max-w-md text-muted dark:text-night-muted">
+                Yeni bir proje, staj sonrası fırsat veya teknik bir sohbet için
+                yazabilirsiniz.
+              </p>
+              <ul className="mt-8 space-y-3 text-sm">
+                <li>
+                  <a
+                    href="mailto:kubradmrgc965@gmail.com"
+                    className="inline-flex items-center gap-3 text-ink transition-colors hover:text-accent dark:text-night-text dark:hover:text-night-accent"
+                  >
+                    <IconMail />
+                    kubradmrgc965@gmail.com
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://linkedin.com/in/k%C3%BCbra-demirg%C3%BC%C3%A7"
+                    className="inline-flex items-center gap-3 text-ink transition-colors hover:text-accent dark:text-night-text dark:hover:text-night-accent"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <IconLinkedin />
+                    LinkedIn
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/kubradmrgc"
+                    className="inline-flex items-center gap-3 text-ink transition-colors hover:text-accent dark:text-night-text dark:hover:text-night-accent"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <IconGithub />
+                    github.com/kubradmrgc
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <form
+              className="space-y-4 rounded-3xl border border-line bg-white/50 p-6 dark:border-night-line dark:bg-night-card sm:p-8"
+              onSubmit={onSubmit}
+              data-reveal
+            >
+              {sent ? (
+                <p className="py-8 text-center text-muted dark:text-night-muted">
+                  Teşekkürler. Mesajınız alındı; en kısa sürede dönüş yapacağım.
+                </p>
+              ) : (
+                <>
+                  <Input id="name" name="name" label="Ad Soyad" required />
+                  <Input id="email" name="email" label="E-posta" type="email" required />
+                  <div className="space-y-1.5">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-ink dark:text-night-text"
+                    >
+                      Mesajınız
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={5}
+                      required
+                      className="w-full rounded-xl border border-line bg-white/70 px-3.5 py-2.5 text-ink transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40 dark:border-night-line dark:bg-night dark:text-night-text"
+                    />
+                  </div>
+                  <Button variant="primary" type="submit">
+                    Gönder
+                  </Button>
+                </>
+              )}
             </form>
           </div>
         </section>
       </main>
 
-      <footer className="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 text-center py-6 px-4 text-gray-500 dark:text-gray-400 text-sm">
-        <p>&copy; 2026 Kübra Demirgüç. Tüm hakları saklıdır.</p>
-        <p>
-          Bu sayfa, Web Tasarımı ve Programlama dersi kapsamında geliştirilmiş
-          kişisel portfolyo uygulamasıdır.
-        </p>
+      <footer className="border-t border-line px-5 py-8 text-center text-sm text-muted dark:border-night-line dark:text-night-muted">
+        <p>© 2026 Kübra Demirgüç</p>
       </footer>
     </div>
   )
 }
-
-export default App

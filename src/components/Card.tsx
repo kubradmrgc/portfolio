@@ -1,37 +1,58 @@
+import type { ReactNode } from 'react'
+
+type CardProps = {
+  title?: string
+  children: ReactNode
+  image?: string
+  imageAlt?: string
+  footer?: ReactNode
+  variant?: 'elevated' | 'outlined' | 'filled'
+  className?: string
+}
+
 export default function Card({
   title,
   children,
   image,
   imageAlt,
   footer,
-  variant = "elevated",
-}: any) {
-  const variants: any = {
-    elevated: "bg-white dark:bg-gray-800 shadow-md hover:shadow-lg",
-    outlined: "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700",
-    filled: "bg-gray-100 dark:bg-gray-800",
-  };
+  variant = 'outlined',
+  className = '',
+}: CardProps) {
+  const variants = {
+    elevated:
+      'bg-white/70 dark:bg-night-card shadow-[0_18px_40px_-28px_rgba(28,25,21,0.45)]',
+    outlined:
+      'bg-white/50 dark:bg-night-card border border-line dark:border-night-line',
+    filled: 'bg-white/80 dark:bg-night-card',
+  }
 
   return (
-    <div className={`rounded-xl overflow-hidden transition-shadow ${variants[variant]}`}>
+    <article
+      className={`rounded-2xl overflow-hidden transition-transform duration-300 hover:-translate-y-1 ${variants[variant]} ${className}`}
+    >
       {image && (
-        <img src={image} alt={imageAlt || ""} className="w-full h-48 object-cover" />
+        <img
+          src={image}
+          alt={imageAlt || ''}
+          className="w-full h-48 object-cover"
+        />
       )}
-      <div className="p-5">
+      <div className="p-6">
         {title && (
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+          <h3 className="text-lg font-semibold tracking-tight text-ink dark:text-night-text mb-3">
             {title}
           </h3>
         )}
-        <div className="text-gray-600 dark:text-gray-400">
+        <div className="text-[0.95rem] text-muted dark:text-night-muted leading-relaxed">
           {children}
         </div>
       </div>
       {footer && (
-        <div className="px-5 py-3 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700">
+        <div className="px-6 py-3 border-t border-line dark:border-night-line text-sm">
           {footer}
         </div>
       )}
-    </div>
-  );
+    </article>
+  )
 }

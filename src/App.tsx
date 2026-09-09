@@ -255,17 +255,57 @@ export default function App() {
       </a>
 
       <header className="sticky top-0 z-40 border-b border-line/80 bg-paper/80 backdrop-blur-md dark:border-night-line dark:bg-night/80">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3">
-          <a href="#hakkimda" className="shrink-0 text-sm font-semibold tracking-tight">
-            Kübra Demirgüç
-          </a>
-          <nav aria-label="Ana navigasyon" className="flex min-w-0 items-center gap-1">
-            <ul className="flex max-w-[68vw] flex-wrap items-center justify-end gap-0.5 sm:max-w-none">
+        <div className="mx-auto max-w-6xl px-5 py-3">
+          <div className="flex items-center justify-between gap-3">
+            <a href="#hakkimda" className="flex min-w-0 items-center gap-3">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-accent text-sm font-semibold tracking-wide text-paper dark:bg-night-accent dark:text-night">
+                KD
+              </span>
+              <span className="flex min-w-0 flex-col">
+                <span className="truncate text-sm font-semibold tracking-tight">
+                  Kübra Demirgüç
+                </span>
+                <span className="text-xs text-muted dark:text-night-muted">
+                  Yazılım Mühendisi · ByteHane
+                </span>
+              </span>
+            </a>
+            <div className="flex shrink-0 items-center gap-2">
+              <a
+                href={WHATSAPP_CHANNEL}
+                target="_blank"
+                rel="noreferrer"
+                className="hidden items-center gap-1.5 rounded-full bg-[#25D366] px-3 py-1.5 text-xs font-semibold text-[#16382c] sm:inline-flex"
+              >
+                <IconWhatsapp className="size-3.5" />
+                Kanala katıl
+              </a>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="rounded-full border border-line p-2 text-muted transition-colors hover:text-ink dark:border-night-line dark:text-night-muted dark:hover:text-night-text"
+                aria-label={dark ? 'Açık temaya geç' : 'Koyu temaya geç'}
+              >
+                {dark ? (
+                  <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.7">
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 3v1.5M12 19.5V21M4.9 4.9l1.1 1.1M18 18l1.1 1.1M3 12h1.5M19.5 12H21M4.9 19.1l1.1-1.1M18 6l1.1-1.1" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.7">
+                    <path d="M18 13a7 7 0 11-7-9 6.5 6.5 0 007 9z" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+          <nav aria-label="Ana navigasyon" className="mt-3 border-t border-line/80 pt-2 dark:border-night-line">
+            <ul className="flex flex-wrap items-center gap-1">
               {NAV.map((item) => (
                 <li key={item.id}>
                   <a
                     href={item.href}
-                    className={`rounded-full px-2.5 py-1 text-xs transition-colors sm:px-3 sm:py-1.5 sm:text-sm ${
+                    className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
                       active === item.id
                         ? 'bg-accent text-paper dark:bg-night-accent dark:text-night'
                         : 'text-muted hover:text-ink dark:text-night-muted dark:hover:text-night-text'
@@ -275,24 +315,17 @@ export default function App() {
                   </a>
                 </li>
               ))}
+              <li className="sm:hidden">
+                <a
+                  href={WHATSAPP_CHANNEL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-3 py-1.5 text-sm font-semibold text-[#16382c]"
+                >
+                  WhatsApp
+                </a>
+              </li>
             </ul>
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className="ml-2 rounded-full border border-line p-2 text-muted transition-colors hover:text-ink dark:border-night-line dark:text-night-muted dark:hover:text-night-text"
-              aria-label={dark ? 'Açık temaya geç' : 'Koyu temaya geç'}
-            >
-              {dark ? (
-                <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.7">
-                  <circle cx="12" cy="12" r="4" />
-                  <path d="M12 3v1.5M12 19.5V21M4.9 4.9l1.1 1.1M18 18l1.1 1.1M3 12h1.5M19.5 12H21M4.9 19.1l1.1-1.1M18 6l1.1-1.1" />
-                </svg>
-              ) : (
-                <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.7">
-                  <path d="M18 13a7 7 0 11-7-9 6.5 6.5 0 007 9z" />
-                </svg>
-              )}
-            </button>
           </nav>
         </div>
       </header>
@@ -332,6 +365,15 @@ export default function App() {
                   className="inline-flex items-center justify-center rounded-full border border-line px-5 py-2.5 text-[0.95rem] font-medium transition-colors hover:border-ink dark:border-night-line dark:hover:border-night-text"
                 >
                   GitHub
+                </a>
+                <a
+                  href={WHATSAPP_CHANNEL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-[0.95rem] font-semibold text-[#16382c]"
+                >
+                  <IconWhatsapp className="size-4" />
+                  ByteHane kanalı
                 </a>
               </div>
             </div>

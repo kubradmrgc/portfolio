@@ -41,6 +41,16 @@ const TECH_GROUPS = [
 
 const EXPERIENCE = [
   {
+    company: 'FÜ BİLTAG',
+    role: 'Proje ve AR-GE · Core Team',
+    dates: 'May 2026 – Halen',
+    points: [
+      'Fırat Üniversitesi Bilişim Teknolojileri Araştırma ve Geliştirme Topluluğu (BİLTAG) Core Team’de Proje ve AR-GE komitesinde yer alıyorum.',
+      'Yapay zeka, yazılım ve siber güvenlik odaklı AR-GE projelerinin geliştirilmesinde görev alıyorum.',
+      'Teknolojiyi yalnızca takip eden değil üreten bir ekip kültürüyle somut mühendislik çıktıları üretmeye odaklanıyorum.',
+    ],
+  },
+  {
     company: 'Prodrom ITC Solutions',
     role: 'Yazılım Geliştirme Stajyeri',
     dates: 'Ağu 2026 – Eyl 2026',
@@ -261,9 +271,9 @@ export default function App() {
                 mimarileri kuruyorum.
               </p>
               <p className="mt-4 max-w-xl text-muted dark:text-night-muted">
-                Komtaş ve Prodrom ITC Solutions deneyimini akademik projeler ve
-                teknik topluluk liderliğiyle bir arada yürütüyorum. İngilizce
-                B2, Almanca A1.
+                Komtaş ve Prodrom ITC Solutions deneyimini FÜ BİLTAG Proje ve
+                AR-GE Core Team rolü, akademik projeler ve teknik topluluk
+                liderliğiyle bir arada yürütüyorum. İngilizce B2, Almanca A1.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a

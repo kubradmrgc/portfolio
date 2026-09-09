@@ -133,10 +133,10 @@ function IconGithub() {
   )
 }
 
-function IconLinkedin() {
+function IconWhatsapp() {
   return (
     <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true" fill="currentColor">
-      <path d="M6.5 9H4V20h2.5V9zM5.24 4A1.5 1.5 0 105.25 7 1.5 1.5 0 005.24 4zM20 20h-2.5v-5.6c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94V20H11V9h2.4v1.51h.03c.33-.63 1.15-1.3 2.37-1.3 2.54 0 3.01 1.67 3.01 3.84V20z" />
+      <path d="M12.04 2c-5.46 0-9.91 4.43-9.91 9.9 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.43 9.91-9.9C21.96 6.43 17.5 2 12.04 2zm5.76 14.08c-.24.68-1.4 1.26-1.94 1.34-.49.07-1.1.1-1.78-.11-.41-.13-.94-.3-1.62-.59-2.85-1.23-4.71-4.1-4.85-4.29-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.36.24-.26.64-.37.86-.37.2 0 .4 0 .58.01.18.01.43-.07.68.52.24.6.83 2.04.9 2.19.07.15.12.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.38-.45.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.36 1.46.3.14.47.12.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.24.67-.14.27.1 1.71.81 2 .95.29.15.48.22.55.34.07.12.07.7-.17 1.38z" />
     </svg>
   )
 }
@@ -511,6 +511,17 @@ export default function App() {
                   >
                     <IconGithub />
                     github.com/kubradmrgc
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://whatsapp.com/channel/0029Vb5bFLd4o7qGpWSBJ50Q"
+                    className="inline-flex items-center gap-3 text-ink transition-colors hover:text-accent dark:text-night-text dark:hover:text-night-accent"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <IconWhatsapp />
+                    WhatsApp kanalı
                   </a>
                 </li>
               </ul>

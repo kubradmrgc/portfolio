@@ -1,178 +1,110 @@
-import { useEffect, useState, type CSSProperties, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import Button from './components/Button'
 import Input from './components/Input'
-
-const NAV = [
-  { href: '#hakkimda', id: 'hakkimda', label: 'Hakkımda' },
-  { href: '#projeler', id: 'projeler', label: 'Projeler' },
-  { href: '#deneyim', id: 'deneyim', label: 'Deneyim' },
-  { href: '#egitim', id: 'egitim', label: 'Eğitim' },
-  { href: '#iletisim', id: 'iletisim', label: 'İletişim' },
-] as const
-
-const TECH_GROUPS = [
-  {
-    label: 'Diller',
-    items: ['C#', 'Go', 'Python', 'Java', 'C++', 'PHP', 'JavaScript'],
-  },
-  {
-    label: 'Framework',
-    items: ['.NET Core', 'React', 'React Native', 'Laravel', 'EF Core'],
-  },
-  {
-    label: 'Veri & altyapı',
-    items: [
-      'SQL Server',
-      'PostgreSQL',
-      'MongoDB',
-      'Redis',
-      'Kafka',
-      'Docker',
-      'Git',
-      'SignalR',
-      'Qlik',
-      'Informatica',
-      'Looker',
-      'BI',
-    ],
-  },
-]
-
-const EXPERIENCE = [
-  {
-    company: 'Prodrom ITC Solutions',
-    role: 'Yazılım Geliştirme Stajyeri',
-    dates: 'Ağu 2026 – Eyl 2026',
-    points: [
-      'Kurumsal IT çözümleri kapsamında yazılım mimarisi geliştirme süreçlerine destek verildi.',
-      'Akıllı CVE Analiz aracında NVD verilerini RAG ve LLM ile özetleyip kritik zafiyetleri Telegram üzerinden ilettim.',
-    ],
-  },
-  {
-    company: 'Komtaş',
-    role: 'Yazılım Mühendisliği Stajyeri',
-    dates: 'Tem 2026 – Ağu 2026',
-    points: [
-      'Veri analizi ve veri analitiği süreçlerinde Informatica kullandım.',
-      'Informatica CDI Taskflow ile sigorta OLTP verisini Staging ve DWH katmanlarına taşıyıp mapping görevlerini paralel çalışacak şekilde orkestre ettim.',
-      'DWH üzerindeki analitik sorguları 10 Datamart tablosuna dönüştürerek gelir grubu, acente, prim ve teminat bazında raporlama katmanı oluşturdum.',
-    ],
-  },
-  {
-    company: 'Fırat Üniversitesi Kariyer Merkezi',
-    role: 'Full Stack Geliştirici',
-    dates: 'Ağu 2025 – Haz 2026',
-    points: [
-      'Öğrenci/mezun portallarının arayüzlerini ve kurumsal web platformlarını React kullanarak geliştirdim.',
-      'Kullanıcı deneyimini (UX) ön planda tutarak dinamik ve ölçeklenebilir web bileşenleri tasarladım.',
-    ],
-  },
-]
-
-const PROJECTS = [
-  {
-    title: 'Akıllı CVE Analiz Aracı',
-    body: 'NVD zafiyetlerini çeken, RAG ve LLM ile özetleyen, kritik bulguları Telegram’dan ileten sistem. FastAPI, PostgreSQL/pgvector ve React.',
-    stack: ['Python', 'PostgreSQL', 'pgvector', 'LLM', 'RAG'],
-    href: 'https://github.com/kubradmrgc/akilli-cve-analizi',
-    tone: 'from-[#10241c] to-[#1c4636]',
-  },
-  {
-    title: 'TerraVision',
-    body: 'Bitki e-ticareti, AR önizleme ve TerraTakas. C# / .NET Core Web API, Next.js ve React Native; anlık iletişim SignalR ile.',
-    stack: ['C#', '.NET Core', 'React Native', 'SignalR'],
-    href: 'https://github.com/kubradmrgc/TerraVision',
-    tone: 'from-[#16382c] to-[#2a5344]',
-  },
-  {
-    title: 'QubIT',
-    body: 'Oyunlaştırılmış IT quiz. Go mikroservisleri ve Python; eşzamanlı trafik Kafka ve Redis ile yönetildi.',
-    stack: ['Go', 'Python', 'Kafka', 'Redis'],
-    href: undefined,
-    tone: 'from-[#1a2a22] to-[#31463c]',
-  },
-  {
-    title: 'Sigorta DWH Pipeline',
-    body: 'Komtaş stajında Informatica CDI Taskflow ile sigorta OLTP verisini Staging ve DWH’ye taşıyıp 10 Datamart tablosu ürettim.',
-    stack: ['Informatica', 'DWH', 'SQL'],
-    href: 'https://github.com/kubradmrgc/sigorta-dwh-pipeline',
-    tone: 'from-[#0f1c18] to-[#24503f]',
-  },
-]
-
-const EDUCATION = [
-  {
-    title: 'Fırat Üniversitesi',
-    meta: 'Yazılım Mühendisliği — Lisans · mezuniyet 2027',
-    body: '4. sınıf. Full-stack geliştirme, mikroservisler, veri analitiği ve yazılım mühendisliği temelleri.',
-  },
-  {
-    title: 'Kahta Borsa İstanbul Fen Lisesi',
-    meta: '2018 – 2022',
-    body: 'Lise eğitimimi tamamladığım dönemde yazılım ve teknolojiye yöneldim.',
-  },
-  {
-    title: 'FÜ BİLTAG',
-    meta: 'Proje ve AR-GE · Core Team · May 2026 – Halen',
-    body: 'Fırat Üniversitesi Bilişim Teknolojileri Araştırma ve Geliştirme Topluluğu Core Team’de Proje ve AR-GE komitesindeyim. Yapay zeka, yazılım ve siber güvenlik odaklı AR-GE projeleri geliştiriyoruz.',
-  },
-  {
-    title: 'Kommagene Sanat Topluluğu',
-    meta: 'Kurucu · Haz 2026',
-    body: 'Haziran 2026’da Kommagene Sanat Topluluğunu kurdum.',
-  },
-  {
-    title: 'IEEE Fırat WIE',
-    meta: 'Women in Engineering Komitesi · Halen',
-    body: 'IEEE Fırat Women in Engineering (WIE) komitesinde görevime devam ediyorum.',
-  },
-]
-
-function IconMail() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.7">
-      <rect x="3" y="5" width="18" height="14" rx="2" />
-      <path d="M4 7l8 6 8-6" />
-    </svg>
-  )
-}
-
-function IconGithub() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true" fill="currentColor">
-      <path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.17-3.37-1.17-.46-1.16-1.12-1.47-1.12-1.47-.92-.62.07-.61.07-.61 1 .07 1.54 1.05 1.54 1.05.9 1.54 2.36 1.1 2.94.84.09-.65.35-1.1.64-1.35-2.22-.25-4.56-1.11-4.56-4.95 0-1.1.39-1.99 1.03-2.7-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.7.11 2.5.33 1.9-1.29 2.74-1.02 2.74-1.02.55 1.37.2 2.39.1 2.64.64.71 1.03 1.6 1.03 2.7 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z" />
-    </svg>
-  )
-}
-
-function IconLinkedin() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true" fill="currentColor">
-      <path d="M6.5 9H4V20h2.5V9zM5.24 4A1.5 1.5 0 105.25 7 1.5 1.5 0 005.24 4zM20 20h-2.5v-5.6c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94V20H11V9h2.4v1.51h.03c.33-.63 1.15-1.3 2.37-1.3 2.54 0 3.01 1.67 3.01 3.84V20z" />
-    </svg>
-  )
-}
-
-function IconWhatsapp({ className = 'size-4' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" fill="currentColor">
-      <path d="M12.04 2c-5.46 0-9.91 4.43-9.91 9.9 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.43 9.91-9.9C21.96 6.43 17.5 2 12.04 2zm5.76 14.08c-.24.68-1.4 1.26-1.94 1.34-.49.07-1.1.1-1.78-.11-.41-.13-.94-.3-1.62-.59-2.85-1.23-4.71-4.1-4.85-4.29-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.36.24-.26.64-.37.86-.37.2 0 .4 0 .58.01.18.01.43-.07.68.52.24.6.83 2.04.9 2.19.07.15.12.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.38-.45.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.36 1.46.3.14.47.12.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.24.67-.14.27.1 1.71.81 2 .95.29.15.48.22.55.34.07.12.07.7-.17 1.38z" />
-    </svg>
-  )
-}
-
-const WHATSAPP_CHANNEL =
-  'https://whatsapp.com/channel/0029Vb5bFLd4o7qGpWSBJ50Q'
-
-const CONTACT_ENDPOINT =
-  'https://formsubmit.co/ajax/kubradmrgc965@gmail.com'
+import {
+  IconExternal,
+  IconGithub,
+  IconLinkedin,
+  IconMail,
+  IconWhatsapp,
+} from './components/Icons'
+import {
+  CERTIFICATES,
+  EDUCATION,
+  EXPERIENCE,
+  NAV,
+  PROFILE,
+  PROJECTS,
+  TECH_GROUPS,
+} from './data/content'
+import { sendContact, validateContact } from './lib/contact'
+import {
+  extraRepos,
+  loadGithubRepos,
+  starsFor,
+  type GithubRepo,
+} from './lib/github'
 
 type FormStatus = 'idle' | 'sending' | 'sent' | 'error'
+
+function ThemeToggle({
+  dark,
+  onToggle,
+}: {
+  dark: boolean
+  onToggle: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      className="rounded-full border border-line p-2 text-muted transition-colors hover:text-ink dark:border-night-line dark:text-night-muted dark:hover:text-night-text"
+      aria-label={dark ? 'Açık temaya geç' : 'Koyu temaya geç'}
+    >
+      {dark ? (
+        <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.7">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 3v1.5M12 19.5V21M4.9 4.9l1.1 1.1M18 18l1.1 1.1M3 12h1.5M19.5 12H21M4.9 19.1l1.1-1.1M18 6l1.1-1.1" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.7">
+          <path d="M18 13a7 7 0 11-7-9 6.5 6.5 0 007 9z" />
+        </svg>
+      )}
+    </button>
+  )
+}
+
+function Socials() {
+  return (
+    <ul className="flex items-center gap-3 text-muted dark:text-night-muted">
+      <li>
+        <a href={`mailto:${PROFILE.email}`} aria-label="E-posta" className="hover:text-ink dark:hover:text-night-text">
+          <IconMail />
+        </a>
+      </li>
+      <li>
+        <a href={PROFILE.github} target="_blank" rel="noreferrer" aria-label="GitHub" className="hover:text-ink dark:hover:text-night-text">
+          <IconGithub />
+        </a>
+      </li>
+      <li>
+        <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="hover:text-ink dark:hover:text-night-text">
+          <IconLinkedin />
+        </a>
+      </li>
+    </ul>
+  )
+}
+
+function NavLinks({ active }: { active: string }) {
+  return (
+    <ul className="flex flex-wrap items-center gap-1 lg:flex-col lg:items-stretch lg:gap-1">
+      {NAV.map((item) => (
+        <li key={item.id}>
+          <a
+            href={item.href}
+            className={`inline-flex rounded-full px-3 py-1.5 text-sm transition-colors lg:w-full ${
+              active === item.id
+                ? 'bg-accent text-paper dark:bg-night-accent dark:text-night'
+                : 'text-muted hover:text-ink dark:text-night-muted dark:hover:text-night-text'
+            }`}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 export default function App() {
   const [dark, setDark] = useState(false)
   const [active, setActive] = useState('hakkimda')
   const [formStatus, setFormStatus] = useState<FormStatus>('idle')
+  const [formError, setFormError] = useState('')
+  const [formNote, setFormNote] = useState<'ok' | 'activation'>('ok')
+  const [repos, setRepos] = useState<GithubRepo[]>([])
 
   useEffect(() => {
     const stored = localStorage.getItem('theme')
@@ -182,35 +114,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    const nodes = Array.from(document.querySelectorAll('[data-reveal]'))
-    const reveal = (node: Element) => node.classList.add('is-visible')
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
-          reveal(entry.target)
-          io.unobserve(entry.target)
-        })
-      },
-      { threshold: 0.14, rootMargin: '0px 0px -8% 0px' },
-    )
-    nodes.forEach((node) => io.observe(node))
-
-    const frame = requestAnimationFrame(() => {
-      nodes.forEach((node) => {
-        const rect = node.getBoundingClientRect()
-        if (rect.top < window.innerHeight * 0.9 && rect.bottom > 48) {
-          reveal(node)
-          io.unobserve(node)
-        }
-      })
-    })
-
-    return () => {
-      cancelAnimationFrame(frame)
-      io.disconnect()
-    }
+    loadGithubRepos().then(setRepos)
   }, [])
 
   useEffect(() => {
@@ -224,7 +128,7 @@ export default function App() {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
         if (visible?.target.id) setActive(visible.target.id)
       },
-      { rootMargin: '-35% 0px -50% 0px', threshold: [0.1, 0.3, 0.6] },
+      { rootMargin: '-30% 0px -55% 0px', threshold: [0.1, 0.3, 0.6] },
     )
     sections.forEach((section) => io.observe(section))
     return () => io.disconnect()
@@ -241,46 +145,47 @@ export default function App() {
     event.preventDefault()
     const form = event.currentTarget
     const data = new FormData(form)
+    setFormError('')
+    const payload = {
+      name: String(data.get('name') || ''),
+      email: String(data.get('email') || ''),
+      message: String(data.get('message') || ''),
+      website: String(data.get('website') || ''),
+    }
 
-    if (String(data.get('website') || '').trim()) {
+    if (payload.website.trim()) {
       setFormStatus('sent')
+      form.reset()
+      return
+    }
+
+    const invalid = validateContact(payload)
+    if (invalid) {
+      setFormStatus('error')
+      setFormError(invalid)
       return
     }
 
     setFormStatus('sending')
 
     try {
-      const response = await fetch(CONTACT_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          name: data.get('name'),
-          email: data.get('email'),
-          message: data.get('message'),
-          _replyto: data.get('email'),
-          _subject: 'Portfolyo iletişim formu',
-        }),
-      })
-
-      const result = (await response.json()) as {
-        success?: boolean | string
-        message?: string
+      const result = await sendContact(payload)
+      if (!result.ok) {
+        setFormStatus('error')
+        setFormError(result.error)
+        return
       }
-      const accepted =
-        result.success === true ||
-        result.success === 'true' ||
-        /activat/i.test(String(result.message || ''))
-
-      if (!response.ok || !accepted) throw new Error('Form gönderilemedi')
+      setFormNote(result.activation ? 'activation' : 'ok')
       setFormStatus('sent')
       form.reset()
     } catch {
       setFormStatus('error')
+      setFormError('Bağlantı kurulamadı. Doğrudan e-posta yazabilirsiniz.')
     }
   }
+
+  const others = extraRepos(repos)
+  const photo = `${import.meta.env.BASE_URL}profil.jpg`
 
   return (
     <div className="min-h-screen bg-paper text-ink dark:bg-night dark:text-night-text">
@@ -288,305 +193,267 @@ export default function App() {
         Ana içeriğe atla
       </a>
 
-      <header className="site-header sticky top-0 z-40 border-b border-line bg-paper/95 shadow-[0_8px_24px_-18px_rgba(18,17,15,0.45)] backdrop-blur-md dark:border-night-line dark:bg-night/95">
-        <div className="mx-auto max-w-6xl px-5 py-3">
+      <header className="site-header sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur-md lg:hidden dark:border-night-line dark:bg-night/95">
+        <div className="px-5 py-3">
           <div className="flex items-center justify-between gap-3">
             <a href="#hakkimda" className="flex min-w-0 items-center gap-3">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-accent text-sm font-semibold tracking-wide text-paper dark:bg-night-accent dark:text-night">
-                KD
-              </span>
-              <span className="flex min-w-0 flex-col">
-                <span className="truncate text-sm font-semibold tracking-tight">
-                  Kübra Demirgüç
-                </span>
-                <span className="text-xs text-muted dark:text-night-muted">
-                  Yazılım Mühendisi
-                </span>
+              <img src={photo} alt="" className="size-10 rounded-2xl object-cover object-[center_20%]" />
+              <span className="min-w-0">
+                <h1 className="truncate text-sm font-semibold tracking-tight">{PROFILE.name}</h1>
+                <span className="text-xs text-muted dark:text-night-muted">{PROFILE.role}</span>
               </span>
             </a>
-            <div className="flex shrink-0 items-center gap-2">
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="rounded-full border border-line p-2 text-muted transition-colors hover:text-ink dark:border-night-line dark:text-night-muted dark:hover:text-night-text"
-                aria-label={dark ? 'Açık temaya geç' : 'Koyu temaya geç'}
-              >
-                {dark ? (
-                  <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.7">
-                    <circle cx="12" cy="12" r="4" />
-                    <path d="M12 3v1.5M12 19.5V21M4.9 4.9l1.1 1.1M18 18l1.1 1.1M3 12h1.5M19.5 12H21M4.9 19.1l1.1-1.1M18 6l1.1-1.1" />
-                  </svg>
-                ) : (
-                  <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.7">
-                    <path d="M18 13a7 7 0 11-7-9 6.5 6.5 0 007 9z" />
-                  </svg>
-                )}
-              </button>
+            <div className="flex items-center gap-2">
+              <div className="hidden sm:block">
+                <Socials />
+              </div>
+              <ThemeToggle dark={dark} onToggle={toggleTheme} />
             </div>
           </div>
           <nav aria-label="Ana navigasyon" className="mt-3 border-t border-line/80 pt-2 dark:border-night-line">
-            <ul className="flex flex-wrap items-center gap-1">
-              {NAV.map((item) => (
-                <li key={item.id}>
-                  <a
-                    href={item.href}
-                    className={`rounded-full px-3 py-1.5 text-sm transition-all duration-300 ${
-                      active === item.id
-                        ? 'bg-accent text-paper dark:bg-night-accent dark:text-night'
-                        : 'text-muted hover:text-ink dark:text-night-muted dark:hover:text-night-text'
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <NavLinks active={active} />
           </nav>
         </div>
       </header>
 
-      <main id="main-content">
-        <section id="hakkimda" className="px-5 pt-8 pb-6 sm:pt-10">
-          <div className="hero-panel mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[1.12fr_0.88fr] lg:items-center lg:gap-10">
-            <div className="hero-copy">
-              <div className="mb-6 flex flex-wrap items-center gap-2">
-                <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs text-[#d5eadc]">
-                  Yazılım Mühendisi
-                </span>
-                <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs text-[#d5eadc]">
-                  Fırat Üniversitesi
-                </span>
-                <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs text-[#d5eadc]">
-                  IEEE Fırat WIE
-                </span>
-              </div>
-              <h1 className="text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl lg:text-[3.6rem] lg:leading-[1.08]">
-                Kübra Demirgüç
-              </h1>
-              <p className="mt-3 max-w-xl text-base text-[#9dccb4]">
-                Mikroservisler, veri ve LLM — yazılımı üretmek ve anlatmak.
+      <div className="mx-auto max-w-6xl lg:grid lg:grid-cols-[minmax(260px,340px)_minmax(0,1fr)] lg:gap-16 lg:px-8">
+        <aside className="site-aside hidden lg:sticky lg:top-0 lg:flex lg:h-dvh lg:flex-col lg:justify-between lg:py-16">
+          <div>
+            <img
+              src={photo}
+              alt={PROFILE.name}
+              className="mb-6 size-20 rounded-3xl object-cover object-[center_20%] ring-2 ring-line dark:ring-night-line"
+            />
+            <h1 className="text-4xl font-semibold tracking-tight">{PROFILE.name}</h1>
+            <p className="mt-2 text-lg text-accent-soft dark:text-night-accent">{PROFILE.role}</p>
+            <p className="mt-4 max-w-xs text-muted dark:text-night-muted">{PROFILE.headline}</p>
+            <nav aria-label="Ana navigasyon" className="mt-10">
+              <NavLinks active={active} />
+            </nav>
+          </div>
+          <div className="flex items-center justify-between gap-3 pt-8">
+            <Socials />
+            <ThemeToggle dark={dark} onToggle={toggleTheme} />
+          </div>
+        </aside>
+
+        <div>
+          <main id="main-content" className="px-5 py-10 lg:px-0 lg:py-16">
+            <section id="hakkimda" className="max-w-2xl scroll-mt-36 lg:scroll-mt-8">
+              <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
+                Hakkımda
               </p>
-              <p className="mt-5 max-w-xl text-[1.05rem] leading-relaxed text-[#d5eadc]">
+              <p className="mt-5 text-[1.05rem] leading-relaxed text-muted dark:text-night-muted">
                 Fırat Üniversitesi Yazılım Mühendisliği 4. sınıf öğrencisiyim.
                 Kariyerime React ve PHP ile başladım; bugün Go, C#, Python,
-                Kafka ve LLM entegrasyonlarıyla ölçeklenebilir mimariler
-                kuruyorum.
+                Kafka ve LLM entegrasyonlarıyla ölçeklenebilir mimariler kuruyorum.
               </p>
-              <p className="mt-4 max-w-xl text-[#c7e4d6]">
-                Komtaş ve Prodrom ITC Solutions deneyimini akademik projeler ve
-                FÜ BİLTAG, IEEE Fırat WIE gibi teknik topluluklarla bir arada
-                yürütüyorum. İngilizce B2, Almanca A1.
+              <p className="mt-4 text-[1.05rem] leading-relaxed text-muted dark:text-night-muted">
+                Komtaş ve Prodrom ITC Solutions stajlarını akademik projeler,
+                FÜ BİLTAG ve IEEE Fırat WIE ile birlikte yürütüyorum. İngilizce B2,
+                Almanca A1. Staj ve tam zamanlı yazılım rolleri için açığım.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a
-                  href="#projeler"
-                  className="hero-cta inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-[0.95rem] font-semibold text-[#16382c]"
-                >
-                  Yaptığım işler
-                </a>
-                <a
-                  href="#iletisim"
-                  className="hero-cta inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-white/16"
-                >
-                  İletişime geç
-                </a>
-                <a
-                  href="https://github.com/kubradmrgc"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hero-cta inline-flex items-center justify-center rounded-full border border-white/25 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-white/10"
-                >
-                  GitHub
-                </a>
-              </div>
-            </div>
-            <figure className="hero-portrait mx-auto mt-12 w-full max-w-sm lg:mt-0 lg:justify-self-end">
-              <img
-                src={`${import.meta.env.BASE_URL}profil.jpg`}
-                alt="Kübra Demirgüç"
-                className="aspect-[4/5] w-full rounded-3xl object-cover object-[center_20%] ring-4 ring-white/20"
-              />
-            </figure>
-          </div>
-        </section>
+            </section>
 
-        <section id="projeler" className="px-5 pt-4 pb-16 sm:pt-6">
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-8">
+            <section id="projeler" className="mt-16 scroll-mt-36 lg:scroll-mt-8">
               <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
                 Yaptığım işler
               </p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight">
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
                 Seçilmiş projeler
               </h2>
-            </div>
-            <div className="grid gap-6 md:grid-cols-2">
-              {PROJECTS.map((project) => {
-                const inner = (
-                  <>
-                    <div
-                      className={`flex min-h-[9.5rem] items-end bg-gradient-to-br px-6 py-5 ${project.tone}`}
-                    >
-                      <h3 className="text-2xl font-semibold tracking-tight text-white">
-                        {project.title}
-                      </h3>
-                    </div>
-                    <div className="flex flex-1 flex-col p-6">
-                      <p className="text-[0.95rem] leading-relaxed text-muted dark:text-night-muted">
-                        {project.body}
-                      </p>
-                      <ul className="mt-5 flex flex-wrap gap-1.5">
-                        {project.stack.map((item) => (
-                          <li
-                            key={item}
-                            className="rounded-full bg-paper px-2.5 py-0.5 text-xs text-ink dark:bg-night dark:text-night-text"
-                          >
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                      <p className="mt-auto pt-5 text-sm font-medium text-accent dark:text-night-accent">
-                        {project.href ? 'GitHub’da aç →' : 'Kaynak özel repo'}
-                      </p>
-                    </div>
-                  </>
-                )
+              <ul className="mt-8 space-y-4">
+                {PROJECTS.map((project) => {
+                  const stars = starsFor(repos, project.slug)
+                  return (
+                    <li key={project.slug}>
+                      <article className="rounded-2xl border border-line bg-white/60 p-5 transition-colors hover:border-accent/40 hover:bg-white dark:border-night-line dark:bg-night-card dark:hover:border-night-accent/40">
+                        <div className="flex flex-wrap items-baseline justify-between gap-2">
+                          <h3 className="text-lg font-semibold tracking-tight">{project.title}</h3>
+                          {typeof stars === 'number' && stars > 0 ? (
+                            <span className="text-xs text-muted dark:text-night-muted">{stars}★</span>
+                          ) : null}
+                        </div>
+                        <p className="mt-2 text-sm text-muted dark:text-night-muted">
+                          <span className="font-medium text-ink dark:text-night-text">Sorun. </span>
+                          {project.problem}
+                        </p>
+                        <p className="mt-1.5 text-sm text-muted dark:text-night-muted">
+                          <span className="font-medium text-ink dark:text-night-text">Sonuç. </span>
+                          {project.outcome}
+                        </p>
+                        <ul className="mt-3 flex flex-wrap gap-1.5">
+                          {project.stack.map((item) => (
+                            <li
+                              key={item}
+                              className="rounded-full border border-line px-2.5 py-0.5 text-xs text-muted dark:border-night-line dark:text-night-muted"
+                            >
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                        <p className="mt-4 flex flex-wrap gap-4 text-sm font-medium">
+                          {project.href ? (
+                            <a
+                              href={project.href}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-1.5 text-accent hover:underline dark:text-night-accent"
+                            >
+                              <IconGithub /> GitHub
+                            </a>
+                          ) : (
+                            <span className="text-muted dark:text-night-muted">Özel repo</span>
+                          )}
+                          {project.demo ? (
+                            <a
+                              href={project.demo}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-1.5 text-accent hover:underline dark:text-night-accent"
+                            >
+                              <IconExternal /> Canlı demo
+                            </a>
+                          ) : null}
+                        </p>
+                      </article>
+                    </li>
+                  )
+                })}
+              </ul>
 
-                const cardClass =
-                  'flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-white/70 shadow-[0_18px_40px_-28px_rgba(28,25,21,0.45)] transition-transform duration-300 hover:-translate-y-1 dark:border-night-line dark:bg-night-card'
-
-                return project.href ? (
-                  <a
-                    key={project.title}
-                    href={project.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={cardClass}
-                  >
-                    {inner}
-                  </a>
-                ) : (
-                  <article key={project.title} className={cardClass}>
-                    {inner}
-                  </article>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section className="px-5 pb-16">
-          <div className="mx-auto max-w-6xl">
-            <h2 className="mb-8 text-sm font-medium uppercase tracking-[0.18em] text-muted dark:text-night-muted">
-              Kullandığım teknolojiler
-            </h2>
-            <div className="grid gap-8 md:grid-cols-3">
-              {TECH_GROUPS.map((group) => (
-                <div key={group.label}>
-                  <p className="mb-3 text-sm font-medium text-ink dark:text-night-text">
-                    {group.label}
-                  </p>
-                  <ul className="flex flex-wrap gap-2" aria-label={group.label}>
-                    {group.items.map((tech) => (
-                      <li
-                        key={tech}
-                        className="tech-chip rounded-full border border-line px-3 py-1 text-sm text-muted dark:border-night-line dark:text-night-muted"
-                      >
-                        {tech}
+              {others.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="text-sm font-medium text-ink dark:text-night-text">
+                    GitHub’dan diğer açık işler
+                  </h3>
+                  <ul className="mt-3 divide-y divide-line dark:divide-night-line">
+                    {others.map((repo) => (
+                      <li key={repo.name}>
+                        <a
+                          href={repo.html_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-start justify-between gap-3 py-3 text-sm hover:text-accent dark:hover:text-night-accent"
+                        >
+                          <span>
+                            <span className="inline-flex items-center gap-1.5 font-medium">
+                              <IconGithub /> {repo.name}
+                            </span>
+                            {repo.description ? (
+                              <span className="mt-0.5 block text-muted dark:text-night-muted">
+                                {repo.description}
+                              </span>
+                            ) : null}
+                          </span>
+                          <span className="shrink-0 pt-0.5 text-xs text-muted dark:text-night-muted">
+                            {repo.stargazers_count > 0 ? `${repo.stargazers_count}★ · ` : ''}
+                            {repo.language ?? 'repo'}
+                          </span>
+                        </a>
                       </li>
                     ))}
                   </ul>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
+              )}
+            </section>
 
-        <section id="deneyim" className="border-y border-line px-5 py-20 dark:border-night-line">
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-12">
+            <section id="deneyim" className="mt-16 scroll-mt-36 lg:scroll-mt-8">
               <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
                 Deneyim
               </p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight">
-                Kurumsal ve akademik işler
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+                Kurumsal işler
               </h2>
-            </div>
-            <ol className="grid gap-5">
-              {EXPERIENCE.map((job) => (
-                <li
-                  key={job.company}
-                  className="rounded-3xl border border-line bg-white/70 p-6 dark:border-night-line dark:bg-night-card sm:p-8"
-                >
-                  <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-                    <h3 className="text-xl font-semibold tracking-tight">{job.company}</h3>
-                    <p className="text-sm text-muted dark:text-night-muted">{job.dates}</p>
-                  </div>
-                  <p className="mt-1 text-sm font-medium text-accent-soft dark:text-night-accent">
-                    {job.role}
-                  </p>
-                  <ul className="mt-4 max-w-3xl list-disc space-y-2 pl-5 text-muted dark:text-night-muted">
-                    {job.points.map((point) => (
-                      <li key={point}>{point}</li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
+              <ol className="mt-8 space-y-3">
+                {EXPERIENCE.map((job) => (
+                  <li
+                    key={job.company}
+                    className="rounded-2xl border border-transparent p-5 transition-colors hover:border-line hover:bg-white/70 dark:hover:border-night-line dark:hover:bg-night-card"
+                  >
+                    <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+                      <h3 className="text-lg font-semibold tracking-tight">
+                        {job.role} · {job.company}
+                      </h3>
+                      <p className="text-sm text-muted dark:text-night-muted">{job.dates}</p>
+                    </div>
+                    <ul className="mt-3 space-y-1.5 text-sm text-muted dark:text-night-muted">
+                      {job.points.map((point) => (
+                        <li key={point}>{point}</li>
+                      ))}
+                    </ul>
+                    <ul className="mt-3 flex flex-wrap gap-1.5">
+                      {job.stack.map((item) => (
+                        <li
+                          key={item}
+                          className="rounded-full bg-paper px-2.5 py-0.5 text-xs dark:bg-night"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ol>
+            </section>
 
-        <section id="egitim" className="px-5 py-20">
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-12" data-reveal>
+            <section className="mt-16">
+              <h2 className="text-sm font-medium uppercase tracking-[0.18em] text-muted dark:text-night-muted">
+                Kullandığım teknolojiler
+              </h2>
+              <div className="mt-6 grid gap-6 sm:grid-cols-3">
+                {TECH_GROUPS.map((group) => (
+                  <div key={group.label}>
+                    <p className="mb-3 text-sm font-medium">{group.label}</p>
+                    <ul className="flex flex-wrap gap-2" aria-label={group.label}>
+                      {group.items.map((tech) => (
+                        <li
+                          key={tech}
+                          className="rounded-full border border-line px-3 py-1 text-sm text-muted dark:border-night-line dark:text-night-muted"
+                        >
+                          {tech}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section id="egitim" className="mt-16 scroll-mt-36 lg:scroll-mt-8">
               <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
                 Eğitim & topluluk
               </p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight">
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
                 Okul ve liderlik
               </h2>
-            </div>
-            <div className="grid gap-8 md:grid-cols-2">
-              {EDUCATION.map((item, index) => (
-                <article
-                  key={item.title}
-                  data-reveal
-                  style={{ '--reveal-delay': `${index * 80}ms` } as CSSProperties}
-                >
-                  <h3 className="text-lg font-semibold tracking-tight">{item.title}</h3>
-                  <p className="mt-1 text-sm text-accent-soft dark:text-night-accent">{item.meta}</p>
-                  <p className="mt-3 text-muted dark:text-night-muted">{item.body}</p>
+              <div className="mt-8 grid gap-8 sm:grid-cols-2">
+                {EDUCATION.map((item) => (
+                  <article key={item.title}>
+                    <h3 className="font-semibold tracking-tight">{item.title}</h3>
+                    <p className="mt-1 text-sm text-accent-soft dark:text-night-accent">{item.meta}</p>
+                    <p className="mt-2 text-sm text-muted dark:text-night-muted">{item.body}</p>
+                  </article>
+                ))}
+                <article>
+                  <h3 className="font-semibold tracking-tight">Sertifikalar</h3>
+                  <ul className="mt-2 space-y-1.5 text-sm text-muted dark:text-night-muted">
+                    {CERTIFICATES.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
                 </article>
-              ))}
-              <article data-reveal>
-                <h3 className="text-lg font-semibold tracking-tight">Sertifikalar</h3>
-                <ul className="mt-3 space-y-1.5 text-muted dark:text-night-muted">
-                  <li>Web Programlama — Akbank Gençlik Akademisi</li>
-                  <li>Geleceği Eşitle Pre-Bootcamp</li>
-                  <li>Finans ve Borsa</li>
-                </ul>
-              </article>
-            </div>
-          </div>
-        </section>
+              </div>
+            </section>
 
-        <section id="bytehane" className="px-5 py-6" aria-labelledby="whatsapp-kanal">
-          <article
-            data-reveal
-            className="mx-auto max-w-6xl rounded-3xl bg-[#16382c] px-6 py-8 text-[#f3f7f4] shadow-[0_24px_50px_-28px_rgba(22,56,44,0.7)] sm:px-10 sm:py-10"
-          >
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-              <div className="max-w-2xl">
+            <section id="bytehane" className="mt-16" aria-labelledby="whatsapp-kanal">
+              <article className="rounded-3xl bg-[#16382c] px-6 py-8 text-[#f3f7f4] sm:px-8">
                 <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.22em] text-[#9dccb4]">
                   <IconWhatsapp className="size-4" />
                   WhatsApp kanalı
                 </p>
-                <h2
-                  id="whatsapp-kanal"
-                  className="mt-4 text-2xl font-semibold tracking-tight text-balance sm:text-3xl"
-                >
-                  Selam! 👋 Seni yazılım serüvenimize, ByteHane&apos;ye davet
-                  ediyorum! 🚀
+                <h2 id="whatsapp-kanal" className="mt-4 text-2xl font-semibold tracking-tight">
+                  Selam! 👋 Seni yazılım serüvenimize, ByteHane&apos;ye davet ediyorum! 🚀
                 </h2>
                 <p className="mt-5 text-[#c7e4d6]">Biz burada neler mi yapıyoruz?</p>
                 <ul className="mt-4 space-y-2 text-[#c7e4d6]">
@@ -594,122 +461,94 @@ export default function App() {
                   <li>🔹 Sektörel terimleri öğrenip quizlerle test ediyoruz.</li>
                   <li>🔹 Birlikte öğrenip, yardımlaşıyoruz.</li>
                 </ul>
-                <p className="mt-5 text-[#f3f7f4]">
-                  Geleceği kodlayanların arasında yerini almak istersen aramıza
-                  katıl! 💻✨
+                <p className="mt-5">
+                  Geleceği kodlayanların arasında yerini almak istersen aramıza katıl! 💻✨
                 </p>
-              </div>
-              <a
-                href={WHATSAPP_CHANNEL}
-                target="_blank"
-                rel="noreferrer"
-                className="channel-cta inline-flex shrink-0 items-center justify-center rounded-full bg-[#25D366] px-6 py-3 text-sm font-semibold text-[#16382c]"
-              >
-                Kanala katıl
-              </a>
-            </div>
-          </article>
-        </section>
+                <a
+                  href={PROFILE.whatsappChannel}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="channel-cta mt-6 inline-flex rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-[#16382c]"
+                >
+                  Kanala katıl
+                </a>
+              </article>
+            </section>
 
-        <section id="iletisim" className="px-5 py-20">
-          <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-            <div data-reveal>
+            <section id="iletisim" className="mt-16 mb-8 scroll-mt-36 lg:scroll-mt-8">
               <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
                 İletişim
               </p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight">
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
                 Birlikte çalışalım
               </h2>
               <p className="mt-4 max-w-md text-muted dark:text-night-muted">
-                Yeni bir proje, staj sonrası fırsat veya teknik bir sohbet için
-                yazabilirsiniz.
+                Yeni bir proje, staj veya teknik bir sohbet için yazın. Form
+                kubradmrgc965@gmail.com adresine düşer.
               </p>
-              <ul className="mt-8 space-y-3 text-sm">
+              <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
                 <li>
-                  <a
-                    href="mailto:kubradmrgc965@gmail.com"
-                    className="inline-flex items-center gap-3 text-ink transition-colors hover:text-accent dark:text-night-text dark:hover:text-night-accent"
-                  >
-                    <IconMail />
-                    kubradmrgc965@gmail.com
+                  <a href={`mailto:${PROFILE.email}`} className="inline-flex items-center gap-2 hover:text-accent dark:hover:text-night-accent">
+                    <IconMail /> E-posta
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://linkedin.com/in/k%C3%BCbra-demirg%C3%BC%C3%A7"
-                    className="inline-flex items-center gap-3 text-ink transition-colors hover:text-accent dark:text-night-text dark:hover:text-night-accent"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <IconLinkedin />
-                    LinkedIn
+                  <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 hover:text-accent dark:hover:text-night-accent">
+                    <IconLinkedin /> LinkedIn
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://github.com/kubradmrgc"
-                    className="inline-flex items-center gap-3 text-ink transition-colors hover:text-accent dark:text-night-text dark:hover:text-night-accent"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <IconGithub />
-                    github.com/kubradmrgc
+                  <a href={PROFILE.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 hover:text-accent dark:hover:text-night-accent">
+                    <IconGithub /> GitHub
                   </a>
                 </li>
               </ul>
-            </div>
-            <form
-              className="relative space-y-4 rounded-3xl border border-line bg-white/50 p-6 dark:border-night-line dark:bg-night-card sm:p-8"
-              onSubmit={onSubmit}
-              data-reveal
-            >
-              {formStatus === 'sent' ? (
-                <p className="py-8 text-center text-muted dark:text-night-muted">
-                  Teşekkürler. Mesajınız e-postama iletildi; en kısa sürede
-                  dönüş yapacağım.
-                </p>
-              ) : (
-                <>
-                  <Input id="name" name="name" label="Ad Soyad" required />
-                  <Input id="email" name="email" label="E-posta" type="email" required />
-                  <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
-                    <label htmlFor="website">Website</label>
-                    <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium text-ink dark:text-night-text"
-                    >
-                      Mesajınız
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={5}
-                      required
-                      className="w-full rounded-xl border border-line bg-white/70 px-3.5 py-2.5 text-ink transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40 dark:border-night-line dark:bg-night dark:text-night-text"
-                    />
-                  </div>
-                  {formStatus === 'error' && (
-                    <p role="alert" className="text-sm text-red-700 dark:text-red-400">
-                      Mesaj gönderilemedi. Lütfen tekrar deneyin veya doğrudan
-                      e-posta adresime yazın.
-                    </p>
-                  )}
-                  <Button variant="primary" type="submit" disabled={formStatus === 'sending'}>
-                    {formStatus === 'sending' ? 'Gönderiliyor…' : 'Gönder'}
-                  </Button>
-                </>
-              )}
-            </form>
-          </div>
-        </section>
-      </main>
-
-      <footer className="border-t border-line px-5 py-8 text-center text-sm text-muted dark:border-night-line dark:text-night-muted">
-        <p>© 2026 Kübra Demirgüç</p>
-      </footer>
+              <form className="relative mt-8 max-w-xl space-y-4" onSubmit={onSubmit}>
+                {formStatus === 'sent' ? (
+                  <p className="rounded-2xl border border-line py-8 text-center text-muted dark:border-night-line dark:text-night-muted">
+                    {formNote === 'activation'
+                      ? 'Teşekkürler. Servis ilk mesajda onay isteyebilir; gecikirse doğrudan e-posta yazın.'
+                      : 'Teşekkürler. Mesajınız iletildi; en kısa sürede dönüş yapacağım.'}
+                  </p>
+                ) : (
+                  <>
+                    <Input id="name" name="name" label="Ad Soyad" autoComplete="name" required />
+                    <Input id="email" name="email" label="E-posta" type="email" autoComplete="email" required />
+                    <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+                      <label htmlFor="website">Website</label>
+                      <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label htmlFor="message" className="block text-sm font-medium">
+                        Mesajınız
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={5}
+                        required
+                        minLength={12}
+                        className="w-full rounded-xl border border-line bg-white/70 px-3.5 py-2.5 text-ink transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40 dark:border-night-line dark:bg-night dark:text-night-text"
+                      />
+                    </div>
+                    {formStatus === 'error' && (
+                      <p role="alert" className="text-sm text-red-700 dark:text-red-400">
+                        {formError}
+                      </p>
+                    )}
+                    <Button variant="primary" type="submit" disabled={formStatus === 'sending'}>
+                      {formStatus === 'sending' ? 'Gönderiliyor…' : 'Gönder'}
+                    </Button>
+                  </>
+                )}
+              </form>
+            </section>
+          </main>
+          <footer className="border-t border-line px-5 py-8 text-sm text-muted lg:px-0 dark:border-night-line dark:text-night-muted">
+            <p>© 2026 {PROFILE.name}</p>
+          </footer>
+        </div>
+      </div>
     </div>
   )
 }

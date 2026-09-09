@@ -1,0 +1,137 @@
+{
+  "fetchedAt": "2026-09-09T20:35:15.694Z",
+  "repos": [
+    {
+      "name": "portfolio",
+      "description": "Kübra Demirgüç — kişisel portfolyo (React + TypeScript + Vite + Tailwind)",
+      "html_url": "https://github.com/kubradmrgc/portfolio",
+      "language": "TypeScript",
+      "stargazers_count": 3,
+      "homepage": "https://kubradmrgc.github.io/portfolio/",
+      "updated_at": "2026-09-09T19:39:08Z",
+      "fork": false,
+      "private": false
+    },
+    {
+      "name": "sigorta-dwh-pipeline",
+      "description": null,
+      "html_url": "https://github.com/kubradmrgc/sigorta-dwh-pipeline",
+      "language": null,
+      "stargazers_count": 0,
+      "homepage": null,
+      "updated_at": "2026-09-05T12:17:44Z",
+      "fork": false,
+      "private": false
+    },
+    {
+      "name": "taksimetre",
+      "description": "81 il taksi ucreti hesaplama — canli yolculuk, harita, duraklar ve sikayet hatlari.",
+      "html_url": "https://github.com/kubradmrgc/taksimetre",
+      "language": "JavaScript",
+      "stargazers_count": 3,
+      "homepage": "https://kubradmrgc.github.io/taksimetre/",
+      "updated_at": "2026-08-31T20:25:39Z",
+      "fork": false,
+      "private": false
+    },
+    {
+      "name": "TerraVision",
+      "description": "TerraVision — bitki e-ticareti, AR önizleme, bahçe bakımı, danışmanlık ve TerraTakas. ASP.NET Core 9 + Next.js + React Native.",
+      "html_url": "https://github.com/kubradmrgc/TerraVision",
+      "language": "TypeScript",
+      "stargazers_count": 3,
+      "homepage": "",
+      "updated_at": "2026-08-30T16:30:11Z",
+      "fork": false,
+      "private": false
+    },
+    {
+      "name": "akilli-cve-analizi",
+      "description": "Akıllı CVE Analiz ve Önceliklendirme Asistanı — FastAPI + PostgreSQL/pgvector + React",
+      "html_url": "https://github.com/kubradmrgc/akilli-cve-analizi",
+      "language": "Python",
+      "stargazers_count": 3,
+      "homepage": null,
+      "updated_at": "2026-08-27T13:27:21Z",
+      "fork": false,
+      "private": false
+    },
+    {
+      "name": "kubradmrgc",
+      "description": "Config files for my GitHub profile.",
+      "html_url": "https://github.com/kubradmrgc/kubradmrgc",
+      "language": "JavaScript",
+      "stargazers_count": 3,
+      "homepage": "https://github.com/kubradmrgc",
+      "updated_at": "2026-08-20T12:15:07Z",
+      "fork": false,
+      "private": false
+    },
+    {
+      "name": "bilgiSistemleriG-venli-i",
+      "description": null,
+      "html_url": "https://github.com/kubradmrgc/bilgiSistemleriG-venli-i",
+      "language": null,
+      "stargazers_count": 3,
+      "homepage": null,
+      "updated_at": "2026-08-15T20:20:23Z",
+      "fork": false,
+      "private": false
+    },
+    {
+      "name": "omdb-project",
+      "description": null,
+      "html_url": "https://github.com/kubradmrgc/omdb-project",
+      "language": "JavaScript",
+      "stargazers_count": 3,
+      "homepage": null,
+      "updated_at": "2026-08-15T20:20:20Z",
+      "fork": false,
+      "private": false
+    },
+    {
+      "name": "omdb-project-Api",
+      "description": null,
+      "html_url": "https://github.com/kubradmrgc/omdb-project-Api",
+      "language": null,
+      "stargazers_count": 3,
+      "homepage": null,
+      "updated_at": "2026-08-15T20:20:19Z",
+      "fork": false,
+      "private": false
+    },
+    {
+      "name": "Yaz-l-m-m-h-oryantasyonu-final-devi",
+      "description": "https://youtu.be/EhyJJTw-2gc?si=AdxQGUjqe9gVMu_q",
+      "html_url": "https://github.com/kubradmrgc/Yaz-l-m-m-h-oryantasyonu-final-devi",
+      "language": null,
+      "stargazers_count": 3,
+      "homepage": null,
+      "updated_at": "2026-08-09T18:11:01Z",
+      "fork": false,
+      "private": false
+    },
+    {
+      "name": "JAVA101",
+      "description": null,
+      "html_url": "https://github.com/kubradmrgc/JAVA101",
+      "language": "Java",
+      "stargazers_count": 3,
+      "homepage": null,
+      "updated_at": "2026-08-09T18:11:00Z",
+      "fork": false,
+      "private": false
+    },
+    {
+      "name": "AKTAR_OTOMASYONU",
+      "description": null,
+      "html_url": "https://github.com/kubradmrgc/AKTAR_OTOMASYONU",
+      "language": null,
+      "stargazers_count": 3,
+      "homepage": null,
+      "updated_at": "2026-08-09T18:10:57Z",
+      "fork": false,
+      "private": false
+    }
+  ]
+}

@@ -119,6 +119,10 @@ body {
   animation: drop-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.site-aside {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .hero-copy > * {
   animation: rise-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -292,6 +296,7 @@ body {
   }
 
   .site-header,
+  .site-aside,
   .hero-copy > *,
   .hero-portrait,
   .hero-portrait img,

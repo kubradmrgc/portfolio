@@ -1,12 +1,11 @@
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react'
 import Button from './components/Button'
 import Input from './components/Input'
-import Card from './components/Card'
 
 const NAV = [
   { href: '#hakkimda', id: 'hakkimda', label: 'Hakkımda' },
-  { href: '#deneyim', id: 'deneyim', label: 'Deneyim' },
   { href: '#projeler', id: 'projeler', label: 'Projeler' },
+  { href: '#deneyim', id: 'deneyim', label: 'Deneyim' },
   { href: '#egitim', id: 'egitim', label: 'Eğitim' },
   { href: '#iletisim', id: 'iletisim', label: 'İletişim' },
 ] as const
@@ -73,18 +72,31 @@ const EXPERIENCE = [
 const PROJECTS = [
   {
     title: 'Akıllı CVE Analiz Aracı',
-    body: 'Python, PostgreSQL (pgvector) ve LLM kullanılarak NVD verilerini çeken, RAG mimarisiyle zafiyetleri özetleyip Telegram botu ile gerçek zamanlı uyarı gönderen sistem.',
+    body: 'NVD zafiyetlerini çeken, RAG ve LLM ile özetleyen, kritik bulguları Telegram’dan ileten sistem. FastAPI, PostgreSQL/pgvector ve React.',
     stack: ['Python', 'PostgreSQL', 'pgvector', 'LLM', 'RAG'],
-  },
-  {
-    title: 'QubIT',
-    body: 'Oyunlaştırılmış IT quiz. Go mikroservisleri ve Python ile tasarlandı; eşzamanlı kullanıcı trafiği Kafka ve Redis ile yönetildi.',
-    stack: ['Go', 'Python', 'Kafka', 'Redis'],
+    href: 'https://github.com/kubradmrgc/akilli-cve-analizi',
+    tone: 'from-[#10241c] to-[#1c4636]',
   },
   {
     title: 'TerraVision',
-    body: 'C#, .NET Core Web API ve React Native. Mobil arayüz ile sunucu arasında anlık iletişim SignalR ile sağlandı.',
+    body: 'Bitki e-ticareti, AR önizleme ve TerraTakas. C# / .NET Core Web API, Next.js ve React Native; anlık iletişim SignalR ile.',
     stack: ['C#', '.NET Core', 'React Native', 'SignalR'],
+    href: 'https://github.com/kubradmrgc/TerraVision',
+    tone: 'from-[#16382c] to-[#2a5344]',
+  },
+  {
+    title: 'QubIT',
+    body: 'Oyunlaştırılmış IT quiz. Go mikroservisleri ve Python; eşzamanlı trafik Kafka ve Redis ile yönetildi.',
+    stack: ['Go', 'Python', 'Kafka', 'Redis'],
+    href: undefined,
+    tone: 'from-[#1a2a22] to-[#31463c]',
+  },
+  {
+    title: 'Sigorta DWH Pipeline',
+    body: 'Komtaş stajında Informatica CDI Taskflow ile sigorta OLTP verisini Staging ve DWH’ye taşıyıp 10 Datamart tablosu ürettim.',
+    stack: ['Informatica', 'DWH', 'SQL'],
+    href: 'https://github.com/kubradmrgc/sigorta-dwh-pipeline',
+    tone: 'from-[#0f1c18] to-[#24503f]',
   },
 ]
 
@@ -334,7 +346,7 @@ export default function App() {
       </header>
 
       <main id="main-content">
-        <section id="hakkimda" className="px-5 pt-8 pb-16 sm:pt-10">
+        <section id="hakkimda" className="px-5 pt-8 pb-6 sm:pt-10">
           <div className="hero-panel mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[1.12fr_0.88fr] lg:items-center lg:gap-10">
             <div className="hero-copy">
               <div className="mb-6 flex flex-wrap items-center gap-2">
@@ -367,16 +379,16 @@ export default function App() {
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href="#iletisim"
+                  href="#projeler"
                   className="hero-cta inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-[0.95rem] font-semibold text-[#16382c]"
                 >
-                  İletişime geç
+                  Yaptığım işler
                 </a>
                 <a
-                  href="#projeler"
+                  href="#iletisim"
                   className="hero-cta inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-white/16"
                 >
-                  Projeler
+                  İletişime geç
                 </a>
                 <a
                   href="https://github.com/kubradmrgc"
@@ -396,8 +408,75 @@ export default function App() {
               />
             </figure>
           </div>
+        </section>
 
-          <div className="mx-auto mt-16 max-w-6xl" data-reveal data-stagger>
+        <section id="projeler" className="px-5 pt-4 pb-16 sm:pt-6">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-8">
+              <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
+                Yaptığım işler
+              </p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight">
+                Seçilmiş projeler
+              </h2>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              {PROJECTS.map((project) => {
+                const inner = (
+                  <>
+                    <div
+                      className={`flex min-h-[9.5rem] items-end bg-gradient-to-br px-6 py-5 ${project.tone}`}
+                    >
+                      <h3 className="text-2xl font-semibold tracking-tight text-white">
+                        {project.title}
+                      </h3>
+                    </div>
+                    <div className="flex flex-1 flex-col p-6">
+                      <p className="text-[0.95rem] leading-relaxed text-muted dark:text-night-muted">
+                        {project.body}
+                      </p>
+                      <ul className="mt-5 flex flex-wrap gap-1.5">
+                        {project.stack.map((item) => (
+                          <li
+                            key={item}
+                            className="rounded-full bg-paper px-2.5 py-0.5 text-xs text-ink dark:bg-night dark:text-night-text"
+                          >
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="mt-auto pt-5 text-sm font-medium text-accent dark:text-night-accent">
+                        {project.href ? 'GitHub’da aç →' : 'Kaynak özel repo'}
+                      </p>
+                    </div>
+                  </>
+                )
+
+                const cardClass =
+                  'flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-white/70 shadow-[0_18px_40px_-28px_rgba(28,25,21,0.45)] transition-transform duration-300 hover:-translate-y-1 dark:border-night-line dark:bg-night-card'
+
+                return project.href ? (
+                  <a
+                    key={project.title}
+                    href={project.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={cardClass}
+                  >
+                    {inner}
+                  </a>
+                ) : (
+                  <article key={project.title} className={cardClass}>
+                    {inner}
+                  </article>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-5 pb-16">
+          <div className="mx-auto max-w-6xl">
             <h2 className="mb-8 text-sm font-medium uppercase tracking-[0.18em] text-muted dark:text-night-muted">
               Kullandığım teknolojiler
             </h2>
@@ -408,10 +487,9 @@ export default function App() {
                     {group.label}
                   </p>
                   <ul className="flex flex-wrap gap-2" aria-label={group.label}>
-                    {group.items.map((tech, index) => (
+                    {group.items.map((tech) => (
                       <li
                         key={tech}
-                        style={{ '--i': index } as CSSProperties}
                         className="tech-chip rounded-full border border-line px-3 py-1 text-sm text-muted dark:border-night-line dark:text-night-muted"
                       >
                         {tech}
@@ -426,7 +504,7 @@ export default function App() {
 
         <section id="deneyim" className="border-y border-line px-5 py-20 dark:border-night-line">
           <div className="mx-auto max-w-6xl">
-            <div className="mb-12" data-reveal>
+            <div className="mb-12">
               <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
                 Deneyim
               </p>
@@ -434,15 +512,12 @@ export default function App() {
                 Kurumsal ve akademik işler
               </h2>
             </div>
-            <ol className="relative space-y-10 border-l border-line pl-8 dark:border-night-line">
-              {EXPERIENCE.map((job, index) => (
+            <ol className="grid gap-5">
+              {EXPERIENCE.map((job) => (
                 <li
                   key={job.company}
-                  className="relative"
-                  data-reveal
-                  style={{ '--reveal-delay': `${index * 90}ms` } as CSSProperties}
+                  className="rounded-3xl border border-line bg-white/70 p-6 dark:border-night-line dark:bg-night-card sm:p-8"
                 >
-                  <span className="timeline-dot absolute -left-[37px] top-1.5 size-2.5 rounded-full bg-accent dark:bg-night-accent" />
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                     <h3 className="text-xl font-semibold tracking-tight">{job.company}</h3>
                     <p className="text-sm text-muted dark:text-night-muted">{job.dates}</p>
@@ -450,7 +525,7 @@ export default function App() {
                   <p className="mt-1 text-sm font-medium text-accent-soft dark:text-night-accent">
                     {job.role}
                   </p>
-                  <ul className="mt-4 max-w-3xl space-y-2 text-muted dark:text-night-muted">
+                  <ul className="mt-4 max-w-3xl list-disc space-y-2 pl-5 text-muted dark:text-night-muted">
                     {job.points.map((point) => (
                       <li key={point}>{point}</li>
                     ))}
@@ -461,43 +536,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="projeler" className="px-5 py-20">
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-12" data-reveal>
-              <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
-                Projeler
-              </p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight">
-                GitHub’da yayında
-              </h2>
-            </div>
-            <div className="grid gap-6 md:grid-cols-3">
-              {PROJECTS.map((project, index) => (
-                <div
-                  key={project.title}
-                  data-reveal
-                  style={{ '--reveal-delay': `${index * 110}ms` } as CSSProperties}
-                >
-                  <Card title={project.title} className="h-full">
-                    <p className="mb-5">{project.body}</p>
-                    <ul className="flex flex-wrap gap-1.5">
-                      {project.stack.map((item) => (
-                        <li
-                          key={item}
-                          className="rounded-full bg-paper px-2.5 py-0.5 text-xs text-ink dark:bg-night dark:text-night-text"
-                        >
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="egitim" className="border-y border-line px-5 py-20 dark:border-night-line">
+        <section id="egitim" className="px-5 py-20">
           <div className="mx-auto max-w-6xl">
             <div className="mb-12" data-reveal>
               <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">

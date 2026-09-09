@@ -1,0 +1,51 @@
+
+@import './styles/tokens.css';
+/* Genel Sıfırlama */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; line-height: 1.6; padding: 20px; }
+
+/* Skip link: normalde gizli, Tab ile görünür */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: #1E3A8A;
+  color: white;
+  padding: 8px 16px;
+  z-index: 100;
+}
+.skip-link:focus { top: 0; }
+
+/* Focus göstergesi ASLA kaldırılmamalıdır */
+:focus { outline: 2px solid #2563EB; outline-offset: 2px; }
+
+/* Form stilleri */
+.form-group { margin-bottom: 1rem; }
+label { display: block; margin-bottom: 0.25rem; font-weight: bold; }
+input, textarea, select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.error-msg { color: red; font-size: 0.85rem; } 
+/* Profil Fotoğrafı Stilleri */
+figure {
+  margin: 1rem 0;
+  text-align: center; /* Fotoğrafı ve alt yazıyı ortalar */
+}
+
+figure img {
+  width: 180px; 
+  height: 180px;
+  object-fit: cover; /* Fotoğrafı sündürmeden kareye sığdırır */
+  border-radius: 50%; /* Tam yuvarlak yapar (istemezsen bu satırı silebilirsin) */
+  border: 3px solid #2563EB; /* Mavi şık bir çerçeve */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Hafif gölge */
+}
+
+figcaption {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.5rem;
+}

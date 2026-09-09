@@ -133,13 +133,16 @@ function IconGithub() {
   )
 }
 
-function IconWhatsapp() {
+function IconWhatsapp({ className = 'size-4' }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true" fill="currentColor">
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" fill="currentColor">
       <path d="M12.04 2c-5.46 0-9.91 4.43-9.91 9.9 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.43 9.91-9.9C21.96 6.43 17.5 2 12.04 2zm5.76 14.08c-.24.68-1.4 1.26-1.94 1.34-.49.07-1.1.1-1.78-.11-.41-.13-.94-.3-1.62-.59-2.85-1.23-4.71-4.1-4.85-4.29-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.36.24-.26.64-.37.86-.37.2 0 .4 0 .58.01.18.01.43-.07.68.52.24.6.83 2.04.9 2.19.07.15.12.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.38-.45.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.36 1.46.3.14.47.12.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.24.67-.14.27.1 1.71.81 2 .95.29.15.48.22.55.34.07.12.07.7-.17 1.38z" />
     </svg>
   )
 }
+
+const WHATSAPP_CHANNEL =
+  'https://whatsapp.com/channel/0029Vb5bFLd4o7qGpWSBJ50Q'
 
 const CONTACT_ENDPOINT =
   'https://formsubmit.co/ajax/kubradmrgc965@gmail.com'
@@ -453,7 +456,8 @@ export default function App() {
                 <h3 className="text-lg font-semibold tracking-tight">ByteHane</h3>
                 <p className="mt-1 text-sm text-accent-soft dark:text-night-accent">İçerik üretimi</p>
                 <p className="mt-3 text-muted dark:text-night-muted">
-                  ByteHane kanallarında programlama ve yazılım mimarisi paylaşımları.
+                  ByteHane kanallarında programlama ve yazılım mimarisi
+                  paylaşımları. WhatsApp kanalından da takip edebilirsin.
                 </p>
               </article>
               <article data-reveal>
@@ -466,6 +470,40 @@ export default function App() {
               </article>
             </div>
           </div>
+        </section>
+
+        <section className="px-5 pb-4" aria-labelledby="whatsapp-kanal">
+          <a
+            href={WHATSAPP_CHANNEL}
+            target="_blank"
+            rel="noreferrer"
+            data-reveal
+            className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 rounded-3xl bg-[#16382c] px-6 py-8 text-[#f3f7f4] shadow-[0_24px_50px_-28px_rgba(22,56,44,0.7)] transition-transform duration-300 hover:-translate-y-0.5 sm:flex-row sm:items-center sm:px-10"
+          >
+            <div className="flex items-start gap-4">
+              <span className="mt-1 flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#25D366] text-[#16382c]">
+                <IconWhatsapp className="size-7" />
+              </span>
+              <div>
+                <p
+                  id="whatsapp-kanal"
+                  className="text-xs font-medium uppercase tracking-[0.22em] text-[#9dccb4]"
+                >
+                  WhatsApp kanalı
+                </p>
+                <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+                  ByteHane’yi telefonunda takip et
+                </h2>
+                <p className="mt-2 max-w-xl text-sm text-[#c7e4d6] sm:text-base">
+                  Programlama, yazılım mimarisi ve proje notları. Gürültüsüz,
+                  tek yönlü bir kanal — sohbet değil, içerik.
+                </p>
+              </div>
+            </div>
+            <span className="inline-flex shrink-0 items-center rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-[#16382c]">
+              Kanala katıl
+            </span>
+          </a>
         </section>
 
         <section id="iletisim" className="px-5 py-20">
@@ -511,17 +549,6 @@ export default function App() {
                   >
                     <IconGithub />
                     github.com/kubradmrgc
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://whatsapp.com/channel/0029Vb5bFLd4o7qGpWSBJ50Q"
-                    className="inline-flex items-center gap-3 text-ink transition-colors hover:text-accent dark:text-night-text dark:hover:text-night-accent"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <IconWhatsapp />
-                    WhatsApp kanalı
                   </a>
                 </li>
               </ul>

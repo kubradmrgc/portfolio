@@ -472,38 +472,45 @@ export default function App() {
           </div>
         </section>
 
-        <section className="px-5 pb-4" aria-labelledby="whatsapp-kanal">
-          <a
-            href={WHATSAPP_CHANNEL}
-            target="_blank"
-            rel="noreferrer"
+        <section className="px-5 py-6" aria-labelledby="whatsapp-kanal">
+          <article
             data-reveal
-            className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 rounded-3xl bg-[#16382c] px-6 py-8 text-[#f3f7f4] shadow-[0_24px_50px_-28px_rgba(22,56,44,0.7)] transition-transform duration-300 hover:-translate-y-0.5 sm:flex-row sm:items-center sm:px-10"
+            className="mx-auto max-w-6xl rounded-3xl bg-[#16382c] px-6 py-8 text-[#f3f7f4] shadow-[0_24px_50px_-28px_rgba(22,56,44,0.7)] sm:px-10 sm:py-10"
           >
-            <div className="flex items-start gap-4">
-              <span className="mt-1 flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#25D366] text-[#16382c]">
-                <IconWhatsapp className="size-7" />
-              </span>
-              <div>
-                <p
-                  id="whatsapp-kanal"
-                  className="text-xs font-medium uppercase tracking-[0.22em] text-[#9dccb4]"
-                >
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-2xl">
+                <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.22em] text-[#9dccb4]">
+                  <IconWhatsapp className="size-4" />
                   WhatsApp kanalı
                 </p>
-                <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
-                  ByteHane’yi telefonunda takip et
+                <h2
+                  id="whatsapp-kanal"
+                  className="mt-4 text-2xl font-semibold tracking-tight text-balance sm:text-3xl"
+                >
+                  Selam! 👋 Seni yazılım serüvenimize, ByteHane&apos;ye davet
+                  ediyorum! 🚀
                 </h2>
-                <p className="mt-2 max-w-xl text-sm text-[#c7e4d6] sm:text-base">
-                  Programlama, yazılım mimarisi ve proje notları. Gürültüsüz,
-                  tek yönlü bir kanal — sohbet değil, içerik.
+                <p className="mt-5 text-[#c7e4d6]">Biz burada neler mi yapıyoruz?</p>
+                <ul className="mt-4 space-y-2 text-[#c7e4d6]">
+                  <li>🔹 Güncel yazılım dillerini ve teknolojilerini konuşuyoruz.</li>
+                  <li>🔹 Sektörel terimleri öğrenip quizlerle test ediyoruz.</li>
+                  <li>🔹 Birlikte öğrenip, yardımlaşıyoruz.</li>
+                </ul>
+                <p className="mt-5 text-[#f3f7f4]">
+                  Geleceği kodlayanların arasında yerini almak istersen aramıza
+                  katıl! 💻✨
                 </p>
               </div>
+              <a
+                href={WHATSAPP_CHANNEL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#25D366] px-6 py-3 text-sm font-semibold text-[#16382c] transition-transform hover:-translate-y-0.5"
+              >
+                Kanala katıl
+              </a>
             </div>
-            <span className="inline-flex shrink-0 items-center rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-[#16382c]">
-              Kanala katıl
-            </span>
-          </a>
+          </article>
         </section>
 
         <section id="iletisim" className="px-5 py-20">

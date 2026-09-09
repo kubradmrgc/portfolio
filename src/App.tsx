@@ -249,10 +249,9 @@ export default function App() {
                 Kafka ve LLM entegrasyonlarıyla ölçeklenebilir mimariler kuruyorum.
               </p>
               <p className="mt-4 text-[1.05rem] leading-relaxed text-muted dark:text-night-muted">
-                Komtaş ve Prodrom ITC Solutions stajlarını orada sonlandırdım;
-                akademik projelerimi FÜ BİLTAG ve IEEE Fırat WIE ile toplulukta
-                yürütüyorum. İngilizce B2, Almanca A1. Staj ve tam zamanlı yazılım
-                rolleri için açığım.
+                Komtaş ve Prodrom ITC Solutions’taki stajlarımı tamamladım.
+                Şimdi Fırat’ta, FÜ BİLTAG ve IEEE Fırat WIE ile üretiyorum.
+                İngilizcem B2, Almancam henüz A1. Bir sonraki işe bakıyorum.
               </p>
             </section>
 

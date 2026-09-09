@@ -110,9 +110,14 @@ const EDUCATION = [
     body: 'Haziran 2026’da Kommagene Sanat Topluluğunu kurdum.',
   },
   {
+    title: 'IEEE Fırat WIE',
+    meta: 'Women in Engineering Komitesi · Halen',
+    body: 'IEEE Fırat Women in Engineering (WIE) komitesinde görevime devam ediyorum.',
+  },
+  {
     title: 'IEEE Fırat Öğrenci Kolu',
-    meta: 'Nis 2026 – May 2026',
-    body: 'Kariyer ve Yapay Zeka Zirvesi koordinatörü ve moderatörü.',
+    meta: 'Kariyer ve Yapay Zeka Zirvesi · Nis 2026 – May 2026',
+    body: 'Zirvede koordinatör ve moderatör olarak görev aldım.',
   },
 ]
 

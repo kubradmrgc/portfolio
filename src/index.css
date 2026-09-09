@@ -101,48 +101,6 @@ body {
   filter: drop-shadow(0 28px 40px rgba(0, 0, 0, 0.45));
 }
 
-.hero-chip {
-  position: absolute;
-  z-index: 2;
-  border: 1px solid rgba(157, 204, 180, 0.28);
-  border-radius: 999px;
-  background: rgba(10, 22, 18, 0.82);
-  padding: 0.4rem 0.8rem;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #c7e4d6;
-  backdrop-filter: blur(10px);
-}
-
-.hero-chip-a {
-  left: -0.6rem;
-  top: 12%;
-}
-
-.hero-chip-b {
-  right: -0.4rem;
-  top: 58%;
-}
-
-.hero-chip-c {
-  bottom: 8%;
-  left: 8%;
-}
-
-@media (max-width: 640px) {
-  .hero-chip-a,
-  .hero-chip-b {
-    left: 0.6rem;
-    right: auto;
-  }
-
-  .hero-chip-b {
-    top: auto;
-    bottom: 22%;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

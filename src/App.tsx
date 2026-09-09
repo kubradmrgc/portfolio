@@ -374,15 +374,12 @@ export default function App() {
                 </a>
               </div>
             </div>
-            <figure className="hero-portrait relative mx-auto mt-12 w-full max-w-sm lg:mt-0 lg:justify-self-end">
+            <figure className="hero-portrait mx-auto mt-12 w-full max-w-sm lg:mt-0 lg:justify-self-end">
               <img
                 src={`${import.meta.env.BASE_URL}profil.jpg`}
                 alt="Kübra Demirgüç"
                 className="aspect-[4/5] w-full rounded-3xl object-cover object-[center_20%] ring-4 ring-white/20"
               />
-              <span className="hero-chip hero-chip-a">Go · C# · Python</span>
-              <span className="hero-chip hero-chip-b">React · LLM</span>
-              <span className="hero-chip hero-chip-c">Kafka · RAG</span>
             </figure>
           </div>
 

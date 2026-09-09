@@ -5,12 +5,12 @@
 @theme {
   --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --color-paper: #f3f0ea;
-  --color-ink: #1c1915;
-  --color-muted: #6b6560;
-  --color-line: #e4dfd6;
-  --color-accent: #3e4a3d;
-  --color-accent-soft: #5d6b5b;
+  --color-paper: #f6f3ec;
+  --color-ink: #12110f;
+  --color-muted: #4f4a45;
+  --color-line: #d9d3c8;
+  --color-accent: #1f332b;
+  --color-accent-soft: #2f4a40;
 
   --color-night: #141311;
   --color-night-card: #1c1b18;
@@ -65,19 +65,16 @@ body {
   top: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  [data-reveal] {
-    opacity: 0;
-    transform: translateY(16px);
-    transition:
-      opacity 650ms ease,
-      transform 650ms ease;
-  }
+.hero-panel {
+  background:
+    radial-gradient(900px 420px at 88% 12%, rgba(37, 211, 102, 0.22), transparent 58%),
+    linear-gradient(145deg, #101c18 0%, #16382c 52%, #0d1714 100%);
+  color: #f4f7f4;
+}
 
-  [data-reveal].is-visible {
-    opacity: 1;
-    transform: none;
-  }
+.hero-panel h1,
+.hero-panel p {
+  color: inherit;
 }
 
 @media (prefers-reduced-motion: reduce) {

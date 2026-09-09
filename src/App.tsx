@@ -254,7 +254,7 @@ export default function App() {
         Ana içeriğe atla
       </a>
 
-      <header className="sticky top-0 z-40 border-b border-line/80 bg-paper/80 backdrop-blur-md dark:border-night-line dark:bg-night/80">
+      <header className="sticky top-0 z-40 border-b border-line bg-paper/95 shadow-[0_8px_24px_-18px_rgba(18,17,15,0.45)] backdrop-blur-md dark:border-night-line dark:bg-night/95">
         <div className="mx-auto max-w-6xl px-5 py-3">
           <div className="flex items-center justify-between gap-3">
             <a href="#hakkimda" className="flex min-w-0 items-center gap-3">
@@ -331,41 +331,27 @@ export default function App() {
       </header>
 
       <main id="main-content">
-        <section id="hakkimda" className="px-5 pt-16 pb-20 sm:pt-24">
-          <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-            <div data-reveal>
-              <p className="mb-4 text-xs font-medium uppercase tracking-[0.22em] text-muted dark:text-night-muted">
-                Yazılım Mühendisi
+        <section id="hakkimda" className="px-5 pt-8 pb-16 sm:pt-10">
+          <div className="hero-panel mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-12">
+            <div>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.22em] text-[#9dccb4]">
+                Yazılım Mühendisi · ByteHane
               </p>
-              <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+              <h1 className="text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl lg:text-6xl">
                 Kübra Demirgüç
               </h1>
-              <p className="mt-6 max-w-xl text-lg text-muted dark:text-night-muted">
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#d5eadc]">
                 Fırat Üniversitesi Yazılım Mühendisliği 4. sınıf öğrencisiyim.
                 Kariyerime React ve PHP ile başladım; bugün Go, C#, Python,
                 Kafka ve LLM entegrasyonlarıyla ölçeklenebilir mikroservis
                 mimarileri kuruyorum.
               </p>
-              <p className="mt-4 max-w-xl text-muted dark:text-night-muted">
+              <p className="mt-4 max-w-xl text-[#c7e4d6]">
                 Komtaş ve Prodrom ITC Solutions deneyimini akademik projeler ve
                 FÜ BİLTAG, IEEE Fırat gibi teknik topluluk liderliğiyle bir arada
                 yürütüyorum. İngilizce B2, Almanca A1.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a
-                  href="#iletisim"
-                  className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-2.5 text-[0.95rem] font-medium text-paper transition-colors hover:bg-accent-soft dark:bg-night-accent dark:text-night dark:hover:bg-night-text"
-                >
-                  İletişime geç
-                </a>
-                <a
-                  href="https://github.com/kubradmrgc"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-full border border-line px-5 py-2.5 text-[0.95rem] font-medium transition-colors hover:border-ink dark:border-night-line dark:hover:border-night-text"
-                >
-                  GitHub
-                </a>
                 <a
                   href={WHATSAPP_CHANNEL}
                   target="_blank"
@@ -373,15 +359,29 @@ export default function App() {
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-[0.95rem] font-semibold text-[#16382c]"
                 >
                   <IconWhatsapp className="size-4" />
-                  ByteHane kanalı
+                  ByteHane kanalına katıl
+                </a>
+                <a
+                  href="#iletisim"
+                  className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-white/16"
+                >
+                  İletişime geç
+                </a>
+                <a
+                  href="https://github.com/kubradmrgc"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-full border border-white/25 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-white/10"
+                >
+                  GitHub
                 </a>
               </div>
             </div>
-            <figure data-reveal className="mx-auto w-full max-w-sm lg:mx-0 lg:justify-self-end">
+            <figure className="mx-auto mt-10 w-full max-w-sm lg:mt-0 lg:justify-self-end">
               <img
                 src={`${import.meta.env.BASE_URL}profil.jpg`}
                 alt="Kübra Demirgüç"
-                className="aspect-[4/5] w-full rounded-3xl object-cover object-[center_20%] shadow-[0_30px_60px_-32px_rgba(28,25,21,0.55)]"
+                className="aspect-[4/5] w-full rounded-3xl object-cover object-[center_20%] ring-4 ring-[#25D366]/35 shadow-[0_30px_60px_-24px_rgba(0,0,0,0.55)]"
               />
             </figure>
           </div>

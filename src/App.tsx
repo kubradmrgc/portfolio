@@ -114,11 +114,6 @@ const EDUCATION = [
     meta: 'Women in Engineering Komitesi · Halen',
     body: 'IEEE Fırat Women in Engineering (WIE) komitesinde görevime devam ediyorum.',
   },
-  {
-    title: 'IEEE Fırat Öğrenci Kolu',
-    meta: 'Kariyer ve Yapay Zeka Zirvesi · Nis 2026 – May 2026',
-    body: 'Zirvede koordinatör ve moderatör olarak görev aldım.',
-  },
 ]
 
 function IconMail() {

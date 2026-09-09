@@ -133,6 +133,14 @@ function IconGithub() {
   )
 }
 
+function IconLinkedin() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true" fill="currentColor">
+      <path d="M6.5 9H4V20h2.5V9zM5.24 4A1.5 1.5 0 105.25 7 1.5 1.5 0 005.24 4zM20 20h-2.5v-5.6c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94V20H11V9h2.4v1.51h.03c.33-.63 1.15-1.3 2.37-1.3 2.54 0 3.01 1.67 3.01 3.84V20z" />
+    </svg>
+  )
+}
+
 function IconWhatsapp({ className = 'size-4' }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true" fill="currentColor">
@@ -332,23 +340,35 @@ export default function App() {
 
       <main id="main-content">
         <section id="hakkimda" className="px-5 pt-8 pb-16 sm:pt-10">
-          <div className="hero-panel mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-12">
+          <div className="hero-panel mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[1.12fr_0.88fr] lg:items-center lg:gap-10">
             <div>
-              <p className="mb-4 text-xs font-medium uppercase tracking-[0.22em] text-[#9dccb4]">
-                Yazılım Mühendisi · ByteHane
-              </p>
-              <h1 className="text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl lg:text-6xl">
+              <div className="mb-6 flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#25D366]/35 bg-[#25D366]/12 px-3 py-1 text-xs font-semibold tracking-wide text-[#9dccb4]">
+                  <span className="size-1.5 rounded-full bg-[#25D366]" />
+                  ByteHane
+                </span>
+                <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs text-[#d5eadc]">
+                  Yazılım Mühendisi
+                </span>
+                <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs text-[#d5eadc]">
+                  Fırat Üniversitesi
+                </span>
+              </div>
+              <h1 className="text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl lg:text-[3.6rem] lg:leading-[1.08]">
                 Kübra Demirgüç
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#d5eadc]">
+              <p className="mt-3 max-w-xl text-base text-[#9dccb4]">
+                Mikroservisler, veri ve LLM — yazılımı üretmek ve anlatmak.
+              </p>
+              <p className="mt-5 max-w-xl text-[1.05rem] leading-relaxed text-[#d5eadc]">
                 Fırat Üniversitesi Yazılım Mühendisliği 4. sınıf öğrencisiyim.
                 Kariyerime React ve PHP ile başladım; bugün Go, C#, Python,
-                Kafka ve LLM entegrasyonlarıyla ölçeklenebilir mikroservis
-                mimarileri kuruyorum.
+                Kafka ve LLM entegrasyonlarıyla ölçeklenebilir mimariler
+                kuruyorum.
               </p>
               <p className="mt-4 max-w-xl text-[#c7e4d6]">
                 Komtaş ve Prodrom ITC Solutions deneyimini akademik projeler ve
-                FÜ BİLTAG, IEEE Fırat gibi teknik topluluk liderliğiyle bir arada
+                FÜ BİLTAG, IEEE Fırat WIE gibi teknik topluluklarla bir arada
                 yürütüyorum. İngilizce B2, Almanca A1.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
@@ -377,12 +397,15 @@ export default function App() {
                 </a>
               </div>
             </div>
-            <figure className="mx-auto mt-10 w-full max-w-sm lg:mt-0 lg:justify-self-end">
+            <figure className="hero-portrait relative mx-auto mt-12 w-full max-w-sm lg:mt-0 lg:justify-self-end">
               <img
                 src={`${import.meta.env.BASE_URL}profil.jpg`}
                 alt="Kübra Demirgüç"
-                className="aspect-[4/5] w-full rounded-3xl object-cover object-[center_20%] ring-4 ring-[#25D366]/35 shadow-[0_30px_60px_-24px_rgba(0,0,0,0.55)]"
+                className="aspect-[4/5] w-full rounded-3xl object-cover object-[center_20%] ring-4 ring-[#25D366]/40"
               />
+              <span className="hero-chip hero-chip-a">Go · C# · Python</span>
+              <span className="hero-chip hero-chip-b">React · LLM</span>
+              <span className="hero-chip hero-chip-c">ByteHane</span>
             </figure>
           </div>
 

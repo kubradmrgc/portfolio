@@ -66,15 +66,84 @@ body {
 }
 
 .hero-panel {
+  position: relative;
+  isolation: isolate;
   background:
-    radial-gradient(900px 420px at 88% 12%, rgba(37, 211, 102, 0.22), transparent 58%),
-    linear-gradient(145deg, #101c18 0%, #16382c 52%, #0d1714 100%);
+    radial-gradient(720px 380px at 92% 8%, rgba(37, 211, 102, 0.32), transparent 58%),
+    radial-gradient(520px 340px at 6% 92%, rgba(37, 211, 102, 0.12), transparent 60%),
+    linear-gradient(145deg, #0b1512 0%, #16382c 48%, #08110e 100%);
   color: #f4f7f4;
+  box-shadow:
+    0 30px 70px -36px rgba(8, 17, 14, 0.75),
+    inset 0 1px 0 rgba(157, 204, 180, 0.18);
 }
 
-.hero-panel h1,
-.hero-panel p {
-  color: inherit;
+.hero-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.45;
+  background-image:
+    linear-gradient(rgba(157, 204, 180, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(157, 204, 180, 0.09) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(ellipse at 78% 28%, #000 12%, transparent 72%);
+}
+
+.hero-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-portrait {
+  filter: drop-shadow(0 28px 40px rgba(0, 0, 0, 0.45));
+}
+
+.hero-chip {
+  position: absolute;
+  z-index: 2;
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  border-radius: 999px;
+  background: rgba(10, 22, 18, 0.82);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #c7e4d6;
+  backdrop-filter: blur(10px);
+}
+
+.hero-chip-a {
+  left: -0.6rem;
+  top: 12%;
+}
+
+.hero-chip-b {
+  right: -0.4rem;
+  top: 58%;
+}
+
+.hero-chip-c {
+  bottom: 8%;
+  left: 8%;
+  background: #25d366;
+  border-color: transparent;
+  color: #16382c;
+}
+
+@media (max-width: 640px) {
+  .hero-chip-a,
+  .hero-chip-b {
+    left: 0.6rem;
+    right: auto;
+  }
+
+  .hero-chip-b {
+    top: auto;
+    bottom: 22%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
